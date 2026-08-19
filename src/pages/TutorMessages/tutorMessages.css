@@ -1,0 +1,71 @@
+/* =====================================
+   TUTOR MESSAGES
+===================================== */
+
+.tutor-messages-page
+.messages-page-header
+> div
+> span {
+  color: #2563eb;
+}
+
+
+/* =====================================
+   CONVERSATION AVATAR
+===================================== */
+
+.tutor-message-avatar-fill,
+.tutor-chat-avatar-fill {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background-color: #eaf2ff;
+
+  color: #2563eb;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+/* =====================================
+   MESSAGE AVATAR
+===================================== */
+
+.tutor-chat-message-avatar {
+  width: 28px;
+  height: 28px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background-color: #eef2f7;
+
+  color: #64748b;
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 650px) {
+  .tutor-chat-message-avatar {
+    width: 26px;
+    height: 26px;
+  }
+}

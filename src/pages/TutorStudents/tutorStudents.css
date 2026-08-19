@@ -1,0 +1,748 @@
+/* =====================================
+   PAGE
+===================================== */
+
+.tutor-students-page {
+  width:
+    min(
+      1180px,
+      calc(
+        100% - 48px
+      )
+    );
+
+  margin:
+    0
+    auto;
+
+  padding:
+    36px
+    0
+    60px;
+}
+
+
+/* =====================================
+   HEADING
+===================================== */
+
+.tutor-students-heading > div > span {
+  color:
+    #2563eb;
+
+  font-size:
+    8px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    1.1px;
+}
+
+
+.tutor-students-heading h1 {
+  margin:
+    7px
+    0
+    5px;
+
+  color:
+    #0f172a;
+
+  font-size:
+    27px;
+
+  letter-spacing:
+    -0.035em;
+}
+
+
+.tutor-students-heading p {
+  margin:
+    0;
+
+  color:
+    #64748b;
+
+  font-size:
+    10px;
+}
+
+
+/* =====================================
+   TOP STATS
+===================================== */
+
+.tutor-student-stats {
+  margin-top:
+    26px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      4,
+      minmax(
+        0,
+        1fr
+      )
+    );
+
+  gap:
+    10px;
+}
+
+
+.tutor-student-stats > div {
+  min-height:
+    86px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    11px;
+
+  padding:
+    15px;
+
+  border:
+    1px solid
+    #e6ebf0;
+
+  border-radius:
+    7px;
+
+  background:
+    #ffffff;
+}
+
+
+.tutor-student-stat-icon {
+  width:
+    36px;
+
+  height:
+    36px;
+
+  flex-shrink:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    6px;
+
+  background:
+    #eff6ff;
+
+  color:
+    #2563eb;
+}
+
+
+.tutor-student-stats section {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    3px;
+}
+
+
+.tutor-student-stats small {
+  color:
+    #64748b;
+
+  font-size:
+    8px;
+}
+
+
+.tutor-student-stats strong {
+  color:
+    #0f172a;
+
+  font-size:
+    20px;
+}
+
+
+/* =====================================
+   SEARCH
+===================================== */
+
+.tutor-students-toolbar {
+  margin-top:
+    15px;
+
+  padding:
+    13px;
+
+  border:
+    1px solid
+    #e6ebf0;
+
+  border-radius:
+    7px;
+
+  background:
+    #ffffff;
+}
+
+
+.tutor-students-toolbar > div {
+  width:
+    min(
+      400px,
+      100%
+    );
+
+  height:
+    37px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  padding:
+    0
+    11px;
+
+  border:
+    1px solid
+    #e2e8f0;
+
+  border-radius:
+    6px;
+
+  color:
+    #94a3b8;
+}
+
+
+.tutor-students-toolbar input {
+  width:
+    100%;
+
+  border:
+    none;
+
+  outline:
+    none;
+
+  background:
+    transparent;
+
+  color:
+    #334155;
+
+  font-family:
+    inherit;
+
+  font-size:
+    9px;
+}
+
+
+/* =====================================
+   LIST
+===================================== */
+
+.tutor-students-list {
+  margin-top:
+    13px;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid
+    #e6ebf0;
+
+  border-radius:
+    8px;
+
+  background:
+    #ffffff;
+}
+
+
+/* =====================================
+   STUDENT CARD
+===================================== */
+
+.tutor-student-card {
+  min-height:
+    115px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1.15fr
+    1fr
+    1.3fr
+    auto;
+
+  align-items:
+    center;
+
+  gap:
+    20px;
+
+  padding:
+    17px
+    19px;
+
+  border-bottom:
+    1px solid
+    #edf1f5;
+}
+
+
+.tutor-student-card:last-child {
+  border-bottom:
+    none;
+}
+
+
+/* =====================================
+   STUDENT
+===================================== */
+
+.tutor-student-main {
+  min-width:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+}
+
+
+.tutor-student-avatar {
+  width:
+    40px;
+
+  height:
+    40px;
+
+  flex-shrink:
+    0;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    #eaf2ff;
+
+  color:
+    #2563eb;
+
+  font-size:
+    10px;
+
+  font-weight:
+    700;
+}
+
+
+.tutor-student-main > div:last-child {
+  min-width:
+    0;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    4px;
+}
+
+
+.tutor-student-main strong {
+  overflow:
+    hidden;
+
+  color:
+    #1e293b;
+
+  font-size:
+    10px;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+.tutor-student-main span {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    4px;
+
+  overflow:
+    hidden;
+
+  color:
+    #94a3b8;
+
+  font-size:
+    7.5px;
+
+  text-overflow:
+    ellipsis;
+
+  white-space:
+    nowrap;
+}
+
+
+/* =====================================
+   CARD STATS
+===================================== */
+
+.tutor-student-card-stats {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      1fr
+    );
+
+  gap:
+    9px;
+}
+
+
+.tutor-student-card-stats > div {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+}
+
+
+.tutor-student-card-stats span {
+  color:
+    #94a3b8;
+
+  font-size:
+    7px;
+}
+
+
+.tutor-student-card-stats strong {
+  color:
+    #334155;
+
+  font-size:
+    10px;
+}
+
+
+/* =====================================
+   SCHEDULE
+===================================== */
+
+.tutor-student-schedule {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    9px;
+}
+
+
+.tutor-student-schedule > div {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  color:
+    #94a3b8;
+}
+
+
+.tutor-student-schedule section {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  gap:
+    2px;
+}
+
+
+.tutor-student-schedule span {
+  color:
+    #94a3b8;
+
+  font-size:
+    7px;
+}
+
+
+.tutor-student-schedule strong {
+  color:
+    #475569;
+
+  font-size:
+    8px;
+
+  font-weight:
+    600;
+}
+
+
+/* =====================================
+   ACTION
+===================================== */
+
+.tutor-student-action a {
+  height:
+    34px;
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  padding:
+    0
+    11px;
+
+  border:
+    1px solid
+    #dbe4ee;
+
+  border-radius:
+    5px;
+
+  background:
+    #ffffff;
+
+  color:
+    #475569;
+
+  font-size:
+    8px;
+
+  font-weight:
+    600;
+
+  text-decoration:
+    none;
+
+  white-space:
+    nowrap;
+
+  transition:
+    color
+      0.18s ease,
+    border-color
+      0.18s ease,
+    background-color
+      0.18s ease;
+}
+
+
+.tutor-student-action a:hover {
+  border-color:
+    #bfdbfe;
+
+  background:
+    #f8fbff;
+
+  color:
+    #2563eb;
+}
+
+
+/* =====================================
+   EMPTY
+===================================== */
+
+.tutor-students-empty {
+  min-height:
+    270px;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    6px;
+
+  color:
+    #94a3b8;
+}
+
+
+.tutor-students-empty strong {
+  margin-top:
+    5px;
+
+  color:
+    #475569;
+
+  font-size:
+    10px;
+}
+
+
+.tutor-students-empty span {
+  font-size:
+    8px;
+}
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media (
+  max-width: 1000px
+) {
+
+  .tutor-student-card {
+    grid-template-columns:
+      1fr
+      1fr;
+
+    gap:
+      15px;
+  }
+
+
+  .tutor-student-action {
+    display:
+      flex;
+
+    justify-content:
+      flex-end;
+  }
+
+}
+
+
+@media (
+  max-width: 800px
+) {
+
+  .tutor-student-stats {
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+  }
+
+}
+
+
+@media (
+  max-width: 600px
+) {
+
+  .tutor-students-page {
+    width:
+      calc(
+        100% - 28px
+      );
+
+    padding-top:
+      25px;
+  }
+
+
+  .tutor-student-stats {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .tutor-student-card {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .tutor-student-action {
+    justify-content:
+      flex-start;
+  }
+
+}

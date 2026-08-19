@@ -1,0 +1,28 @@
+.stats {
+  background-color: rgba(0, 0, 255, 0.729);
+  padding: 40px 0;
+  margin-top: 60px;
+}
+
+.stats .container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 50px;
+}
+.stats .container .stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.stats .container .stat p {
+  color: #fff;
+}
+.stats .container .stat .title {
+  font-size: 24px;
+  font-weight: 600;
+}
+.stats .container .stat .subtitle {
+  font-size: 14px;
+  font-weight: 400;
+}

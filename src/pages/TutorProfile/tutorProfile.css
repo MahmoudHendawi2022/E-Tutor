@@ -1,0 +1,788 @@
+/* =====================================
+   PAGE
+===================================== */
+
+.tutor-profile-page {
+  min-height: 100vh;
+
+  padding:
+    110px
+    0
+    80px;
+
+  background-color: #f8fafc;
+}
+
+
+/* =====================================
+   BACK
+===================================== */
+
+.tutor-back {
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 25px;
+
+  color: #64748b;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  transition: color 0.18s ease;
+}
+
+
+.tutor-back:hover {
+  color: #2563eb;
+}
+
+
+/* =====================================
+   LAYOUT
+===================================== */
+
+.tutor-profile-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    320px;
+
+  gap: 25px;
+
+  align-items: start;
+}
+
+
+/* =====================================
+   MAIN CARD
+===================================== */
+
+.tutor-profile-card,
+.profile-section,
+.booking-card {
+  background-color: #ffffff;
+
+  border: 1px solid #e5e9ef;
+
+  border-radius: 8px;
+
+  box-shadow:
+    0 4px 20px rgba(15, 23, 42, 0.035);
+}
+
+
+/* =====================================
+   PROFILE HEADER
+===================================== */
+
+.tutor-profile-card {
+  padding: 28px;
+
+  margin-bottom: 18px;
+}
+
+
+.tutor-profile-header {
+  display: flex;
+
+  gap: 22px;
+
+  align-items: center;
+}
+
+
+.tutor-profile-image-wrapper {
+  position: relative;
+
+  width: 105px;
+  height: 105px;
+
+  flex-shrink: 0;
+}
+
+
+.tutor-profile-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+
+.profile-online-dot {
+  position: absolute;
+
+  right: 5px;
+  bottom: 7px;
+
+  width: 15px;
+  height: 15px;
+
+  border: 3px solid #fff;
+
+  border-radius: 50%;
+
+  background-color: #22c55e;
+}
+
+
+/* =====================================
+   INTRO
+===================================== */
+
+.tutor-profile-intro {
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+.profile-name-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+
+.profile-name-row h1 {
+  margin: 0 0 5px;
+
+  color: #0f172a;
+
+  font-size: 26px;
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  letter-spacing: -0.6px;
+}
+
+
+.profile-name-row p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+
+/* Favorite */
+
+.profile-favorite {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 6px;
+
+  background: #fff;
+
+  color: #94a3b8;
+
+  cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+
+.profile-favorite:hover,
+.profile-favorite.active {
+  color: #ef4444;
+
+  border-color: #fecaca;
+
+  background-color: #fff7f7;
+}
+
+
+/* Rating */
+
+.profile-rating {
+  display: flex;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin-top: 15px;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+
+.profile-rating svg {
+  color: #f59e0b;
+}
+
+
+.profile-rating strong {
+  color: #0f172a;
+}
+
+
+.profile-dot {
+  color: #cbd5e1;
+}
+
+
+.profile-verified {
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 12px;
+
+  color: #16a34a;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+
+/* =====================================
+   SECTIONS
+===================================== */
+
+.profile-section {
+  padding: 27px;
+
+  margin-bottom: 18px;
+}
+
+
+.profile-section h2 {
+  margin: 0 0 17px;
+
+  color: #0f172a;
+
+  font-size: 17px;
+  font-weight: 650;
+
+  letter-spacing: -0.3px;
+}
+
+
+.profile-about {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+
+  line-height: 1.8;
+}
+
+
+/* =====================================
+   SUBJECTS
+===================================== */
+
+.profile-subjects {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+
+.profile-subjects span {
+  padding: 7px 11px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 5px;
+
+  background-color: #f8fafc;
+
+  color: #475569;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+
+/* =====================================
+   DETAILS
+===================================== */
+
+.profile-details-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 13px;
+}
+
+
+.profile-detail {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 14px;
+
+  border: 1px solid #edf0f3;
+
+  border-radius: 6px;
+
+  background-color: #fbfcfd;
+}
+
+
+.profile-detail-icon {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 5px;
+
+  background-color: #eef4ff;
+
+  color: #2563eb;
+}
+
+
+.profile-detail > div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.profile-detail span {
+  color: #94a3b8;
+
+  font-size: 9px;
+}
+
+
+.profile-detail strong {
+  overflow: hidden;
+
+  color: #334155;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* =====================================
+   REVIEWS
+===================================== */
+
+.profile-section-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 17px;
+}
+
+
+.profile-section-heading h2 {
+  margin: 0;
+}
+
+
+.profile-section-heading button {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.review-card {
+  padding: 17px;
+
+  border: 1px solid #edf0f3;
+
+  border-radius: 6px;
+
+  background-color: #fbfcfd;
+}
+
+
+.review-card-header {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 13px;
+}
+
+
+.review-avatar {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background-color: #e8f0ff;
+
+  color: #2563eb;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+.review-card-header > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+
+  flex: 1;
+}
+
+
+.review-card-header strong {
+  color: #0f172a;
+
+  font-size: 11px;
+}
+
+
+.review-card-header span {
+  color: #94a3b8;
+
+  font-size: 9px;
+}
+
+
+.review-rating {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  color: #0f172a;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+.review-rating svg {
+  color: #f59e0b;
+}
+
+
+.review-card > p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 11px;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================
+   BOOKING
+===================================== */
+
+.booking-card {
+  position: sticky;
+
+  top: 95px;
+
+  padding: 24px;
+}
+
+
+.booking-price > span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+
+.booking-price > div {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 4px;
+}
+
+
+.booking-price strong {
+  color: #0f172a;
+
+  font-size: 28px;
+  font-weight: 700;
+
+  letter-spacing: -0.7px;
+}
+
+
+.booking-price div span {
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+
+.booking-divider {
+  height: 1px;
+
+  margin: 20px 0;
+
+  background-color: #edf0f3;
+}
+
+
+.booking-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 13px;
+
+  margin-bottom: 22px;
+}
+
+
+.booking-info > div {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: #64748b;
+
+  font-size: 11px;
+}
+
+
+.booking-info svg {
+  color: #2563eb;
+}
+
+
+/* Buttons */
+
+.book-lesson-btn,
+.message-tutor-btn {
+  width: 100%;
+  height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+
+.book-lesson-btn {
+  margin-bottom: 9px;
+
+  border: 1px solid #2563eb;
+
+  background-color: #2563eb;
+
+  color: #ffffff;
+}
+
+
+.book-lesson-btn:hover {
+  border-color: #1d4ed8;
+
+  background-color: #1d4ed8;
+
+  box-shadow:
+    0 5px 13px rgba(37, 99, 235, 0.15);
+}
+
+
+.message-tutor-btn {
+  border: 1px solid #d7dde5;
+
+  background-color: #ffffff;
+
+  color: #334155;
+}
+
+
+.message-tutor-btn:hover {
+  border-color: #b9c4d2;
+
+  background-color: #f8fafc;
+}
+
+
+.booking-note {
+  margin: 16px 0 0;
+
+  text-align: center;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+
+  line-height: 1.6;
+}
+
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (max-width: 991px) {
+
+  .tutor-profile-page .container {
+    padding-inline: 20px;
+  }
+
+
+  .tutor-profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+
+  .booking-card {
+    position: static;
+  }
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+  .tutor-profile-page {
+    padding:
+      100px
+      0
+      60px;
+  }
+
+
+  .tutor-profile-page .container {
+    padding-inline: 16px;
+  }
+
+
+  .tutor-profile-card {
+    padding: 22px;
+  }
+
+
+  .tutor-profile-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .tutor-profile-image-wrapper {
+    width: 90px;
+    height: 90px;
+  }
+
+
+  .profile-name-row {
+    width: 100%;
+  }
+
+
+  .profile-name-row h1 {
+    font-size: 23px;
+  }
+
+
+  .profile-section {
+    padding: 22px;
+  }
+
+
+  .profile-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .booking-card {
+    padding: 22px;
+  }
+
+}

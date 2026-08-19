@@ -1,0 +1,1664 @@
+.lesson-details-page {
+  width: 100%;
+
+  max-width: 1380px;
+
+  margin: 0 auto;
+
+  padding:
+    32px
+    34px
+    60px;
+}
+
+
+/* =====================================
+   BACK
+===================================== */
+
+.lesson-details-back {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-bottom: 22px;
+
+  color: #64748b;
+
+  font-size: 9px;
+  font-weight: 500;
+
+  transition:
+    color 0.18s ease;
+}
+
+
+.lesson-details-back:hover {
+  color: #2563eb;
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.lesson-details-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 24px;
+}
+
+
+.lesson-details-eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #94a3b8;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+.lesson-details-header h1 {
+  margin:
+    0
+    0
+    6px;
+
+  color: #0f172a;
+
+  font-size: 27px;
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  letter-spacing: -0.7px;
+}
+
+
+.lesson-details-header p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+}
+
+
+.lesson-details-header p strong {
+  color: #64748b;
+
+  font-weight: 600;
+}
+
+
+/* STATUS */
+
+.lesson-details-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding:
+    6px
+    9px;
+
+  border-radius: 5px;
+
+  font-size: 8px;
+  font-weight: 600;
+}
+
+
+.lesson-details-status.upcoming {
+  background-color: #f0fdf4;
+
+  color: #15803d;
+}
+
+
+.lesson-details-status.completed {
+  background-color: #eff6ff;
+
+  color: #2563eb;
+}
+
+
+.lesson-details-status.cancelled {
+  background-color: #fef2f2;
+
+  color: #dc2626;
+}
+
+
+/* =====================================
+   LAYOUT
+===================================== */
+
+.lesson-details-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    310px;
+
+  gap: 18px;
+
+  align-items: start;
+}
+
+
+.lesson-details-main,
+.lesson-details-sidebar {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+
+/* =====================================
+   CARD
+===================================== */
+
+.lesson-details-card {
+  padding: 22px;
+
+  border: 1px solid #e7ebf0;
+
+  border-radius: 7px;
+
+  background-color: #ffffff;
+
+  box-shadow:
+    0 2px 12px
+    rgba(
+      15,
+      23,
+      42,
+      0.022
+    );
+}
+
+
+/* =====================================
+   CARD HEADING
+===================================== */
+
+.lesson-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 19px;
+}
+
+
+.lesson-card-heading h2 {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+
+.lesson-card-heading p {
+  margin:
+    4px
+    0
+    0;
+
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+.lesson-card-heading > button {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #2563eb;
+
+  font-family: inherit;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* =====================================
+   SCHEDULE
+===================================== */
+
+.lesson-schedule-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 10px;
+}
+
+
+.lesson-info-box {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 14px;
+
+  border:
+    1px solid #edf0f3;
+
+  border-radius: 6px;
+
+  background-color: #fbfcfd;
+}
+
+
+.lesson-info-icon {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 5px;
+
+  background-color: #eff5ff;
+
+  color: #2563eb;
+}
+
+
+.lesson-info-box > div:last-child {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.lesson-info-box span {
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+.lesson-info-box strong {
+  overflow: hidden;
+
+  color: #334155;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* =====================================
+   MEETING
+===================================== */
+
+.lesson-meeting {
+  display: grid;
+
+  grid-template-columns:
+    42px
+    minmax(0, 1fr)
+    auto;
+
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 14px;
+
+  border:
+    1px solid #dbe5f5;
+
+  border-radius: 6px;
+
+  background-color: #f8fbff;
+}
+
+
+.lesson-meeting-icon {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 6px;
+
+  background-color: #e8f0ff;
+
+  color: #2563eb;
+}
+
+
+.lesson-meeting-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.lesson-meeting-info span {
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+.lesson-meeting-info strong {
+  overflow: hidden;
+
+  color: #334155;
+
+  font-size: 9px;
+  font-weight: 500;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.lesson-copy-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+
+  pointer-events: none;
+}
+.lesson-copy-button {
+  height: 31px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding:
+    0
+    9px;
+
+  border:
+    1px solid #d6dfeb;
+
+  border-radius: 5px;
+
+  background-color: #ffffff;
+
+  color: #475569;
+
+  font-family: inherit;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.lesson-meeting-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 13px;
+}
+
+
+.lesson-join-button {
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  padding:
+    0
+    12px;
+
+  border:
+    1px solid #2563eb;
+
+  border-radius: 5px;
+
+  background-color: #2563eb;
+
+  color: #ffffff;
+
+  font-size: 8.5px;
+  font-weight: 600;
+}
+
+
+.lesson-join-button.disabled {
+  border-color: #cbd5e1;
+
+  background-color: #cbd5e1;
+
+  cursor: not-allowed;
+}
+
+
+.lesson-meeting-actions p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+/* =====================================
+   NOTES
+===================================== */
+
+.lesson-notes {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  padding: 14px;
+
+  border:
+    1px solid #e4e9ef;
+
+  border-radius: 6px;
+
+  background-color: #fbfcfd;
+
+  color: #2563eb;
+}
+
+
+.lesson-notes p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 9px;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================
+   CANCELLATION
+===================================== */
+
+.lesson-cancellation {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      1fr
+    );
+
+  gap: 10px;
+}
+
+
+.lesson-cancellation > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  padding: 13px;
+
+  border:
+    1px solid #fee2e2;
+
+  border-radius: 6px;
+
+  background-color: #fffafa;
+}
+
+
+.lesson-cancellation span {
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+.lesson-cancellation strong {
+  color: #475569;
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+
+/* =====================================
+   TUTOR CARD
+===================================== */
+
+.lesson-side-label {
+  display: block;
+
+  margin-bottom: 17px;
+
+  color: #94a3b8;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+.lesson-tutor-profile {
+  text-align: center;
+}
+
+
+.lesson-tutor-profile img {
+  width: 68px;
+  height: 68px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+
+.lesson-tutor-profile h2 {
+  margin:
+    11px
+    0
+    3px;
+
+  color: #0f172a;
+
+  font-size: 13px;
+  font-weight: 650;
+}
+
+
+.lesson-tutor-profile p {
+  margin: 0;
+
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+.lesson-tutor-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  margin-top: 9px;
+
+  color: #64748b;
+
+  font-size: 8px;
+}
+
+
+.lesson-tutor-stats span {
+  display: flex;
+  align-items: center;
+
+  gap: 3px;
+}
+
+
+.lesson-tutor-stats svg {
+  color: #f59e0b;
+}
+
+
+.lesson-tutor-divider {
+  color: #cbd5e1;
+}
+
+
+.lesson-profile-button,
+.lesson-message-button {
+  width: 100%;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  border-radius: 5px;
+
+  font-family: inherit;
+
+  font-size: 8px;
+  font-weight: 600;
+}
+
+
+.lesson-profile-button {
+  margin-top: 18px;
+
+  border:
+    1px solid #2563eb;
+
+  background-color: #2563eb;
+
+  color: #ffffff;
+}
+
+
+.lesson-message-button {
+  margin-top: 7px;
+
+  border:
+    1px solid #dce2e9;
+
+  background-color: #ffffff;
+
+  color: #475569;
+
+  cursor: pointer;
+}
+
+
+/* =====================================
+   SUMMARY
+===================================== */
+
+.lesson-summary-card h2 {
+  margin:
+    0
+    0
+    17px;
+
+  color: #0f172a;
+
+  font-size: 12px;
+  font-weight: 650;
+}
+
+
+.lesson-summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 12px;
+}
+
+
+.lesson-summary-row span {
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+.lesson-summary-row strong {
+  color: #475569;
+
+  font-size: 8px;
+  font-weight: 600;
+}
+
+
+.lesson-summary-divider {
+  height: 1px;
+
+  margin:
+    17px
+    0;
+
+  background-color: #edf0f3;
+}
+
+
+.lesson-summary-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.lesson-summary-total span {
+  color: #334155;
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+
+.lesson-summary-total strong {
+  color: #0f172a;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+
+.lesson-summary-secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  margin-top: 15px;
+
+  color: #94a3b8;
+
+  font-size: 7px;
+}
+
+
+/* =====================================
+   ACTIONS
+===================================== */
+
+.lesson-actions-card {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.lesson-reschedule-button,
+.lesson-review-button,
+.lesson-cancel-button {
+  width: 100%;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  border-radius: 5px;
+
+  font-family: inherit;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+.lesson-reschedule-button,
+.lesson-review-button {
+  border:
+    1px solid #dce2e9;
+
+  background-color: #ffffff;
+
+  color: #475569;
+}
+
+
+.lesson-reschedule-button:hover,
+.lesson-review-button:hover {
+  border-color: #bdc7d4;
+
+  background-color: #f8fafc;
+
+  color: #2563eb;
+}
+
+
+.lesson-cancel-button {
+  border:
+    1px solid #fee2e2;
+
+  background-color: #fffafa;
+
+  color: #dc2626;
+}
+
+
+.lesson-cancel-button:hover {
+  background-color: #fef2f2;
+}
+
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (max-width: 1000px) {
+
+  .lesson-details-layout {
+    grid-template-columns: 1fr;
+  }
+
+
+  .lesson-details-sidebar {
+    display: grid;
+
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+  }
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 850px) {
+
+  .lesson-details-page {
+    padding:
+      28px
+      20px
+      50px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .lesson-details-page {
+    padding:
+      24px
+      14px
+      40px;
+  }
+
+
+  .lesson-details-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .lesson-details-header h1 {
+    font-size: 23px;
+  }
+
+
+  .lesson-schedule-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .lesson-meeting {
+    grid-template-columns:
+      38px
+      minmax(0, 1fr);
+
+    gap: 9px;
+  }
+
+
+  .lesson-copy-button {
+    grid-column:
+      1 / -1;
+
+    width: 100%;
+  }
+
+
+  .lesson-meeting-actions {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+
+  .lesson-join-button {
+    width: 100%;
+  }
+
+
+  .lesson-cancellation {
+    grid-template-columns: 1fr;
+  }
+
+
+  .lesson-details-sidebar {
+    display: flex;
+  }
+
+}
+
+.lesson-message-button {
+  text-decoration: none;
+}
+
+
+/* =====================================
+   CANCEL MODAL BACKDROP
+===================================== */
+
+.lesson-details-cancel-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 2000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background-color:
+    rgba(
+      15,
+      23,
+      42,
+      0.42
+    );
+
+  backdrop-filter:
+    blur(2px);
+}
+
+
+/* =====================================
+   CANCEL MODAL
+===================================== */
+
+.lesson-details-cancel-modal {
+  width: 100%;
+  max-width: 470px;
+
+  overflow: hidden;
+
+  border:
+    1px solid #e5e9ef;
+
+  border-radius: 9px;
+
+  background-color: #ffffff;
+
+  box-shadow:
+    0 22px 60px
+    rgba(
+      15,
+      23,
+      42,
+      0.18
+    );
+}
+
+
+/* =====================================
+   HEADER
+===================================== */
+
+.lesson-details-cancel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  padding:
+    21px
+    21px
+    18px;
+
+  border-bottom:
+    1px solid #eef1f4;
+}
+
+
+.lesson-details-cancel-heading {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+}
+
+
+.lesson-details-cancel-icon {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 7px;
+
+  background-color: #fef2f2;
+
+  color: #dc2626;
+}
+
+
+.lesson-details-cancel-heading h2 {
+  margin:
+    1px
+    0
+    5px;
+
+  color: #0f172a;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+
+.lesson-details-cancel-heading p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 9px;
+
+  line-height: 1.6;
+}
+
+
+.lesson-details-cancel-close {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background-color: transparent;
+
+  color: #94a3b8;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+
+.lesson-details-cancel-close:hover {
+  background-color: #f8fafc;
+
+  color: #475569;
+}
+
+
+/* =====================================
+   LESSON SUMMARY
+===================================== */
+
+.lesson-details-cancel-summary {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  margin:
+    18px
+    21px
+    0;
+
+  padding: 13px;
+
+  border:
+    1px solid #e8ecf1;
+
+  border-radius: 7px;
+
+  background-color: #fafbfd;
+}
+
+
+.lesson-details-cancel-summary img {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+
+.lesson-details-cancel-summary > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+.lesson-details-cancel-summary span {
+  margin-bottom: 2px;
+
+  color: #2563eb;
+
+  font-size: 7.5px;
+  font-weight: 600;
+}
+
+
+.lesson-details-cancel-summary strong {
+  overflow: hidden;
+
+  margin-bottom: 3px;
+
+  color: #334155;
+
+  font-size: 10px;
+  font-weight: 650;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.lesson-details-cancel-summary small {
+  color: #94a3b8;
+
+  font-size: 7.5px;
+
+  line-height: 1.5;
+}
+
+
+/* =====================================
+   REASON SECTION
+===================================== */
+
+.lesson-details-cancel-section {
+  padding:
+    19px
+    21px
+    18px;
+}
+
+
+.lesson-details-cancel-section-heading {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  margin-bottom: 12px;
+}
+
+
+.lesson-details-cancel-section-heading strong {
+  color: #334155;
+
+  font-size: 10px;
+  font-weight: 650;
+}
+
+
+.lesson-details-cancel-section-heading span {
+  color: #94a3b8;
+
+  font-size: 8px;
+
+  line-height: 1.5;
+}
+
+
+/* =====================================
+   REASONS
+===================================== */
+
+.lesson-details-cancel-reasons {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.lesson-details-cancel-reason {
+  width: 100%;
+  min-height: 39px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding:
+    0
+    11px;
+
+  border:
+    1px solid #e3e8ee;
+
+  border-radius: 6px;
+
+  background-color: #ffffff;
+
+  color: #475569;
+
+  font-family: inherit;
+
+  font-size: 8.5px;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+
+.lesson-details-cancel-reason:hover {
+  border-color: #cbd5e1;
+
+  background-color: #fafbfd;
+}
+
+
+.lesson-details-cancel-reason.active {
+  border-color: #fecaca;
+
+  background-color: #fffafa;
+}
+
+
+/* =====================================
+   RADIO
+===================================== */
+
+.lesson-details-cancel-radio {
+  width: 15px;
+  height: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid #cbd5e1;
+
+  border-radius: 50%;
+
+  background-color: #ffffff;
+}
+
+
+.lesson-details-cancel-reason.active
+.lesson-details-cancel-radio {
+  border-color: #dc2626;
+}
+
+
+.lesson-details-cancel-radio > span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background-color: #dc2626;
+}
+
+
+/* =====================================
+   OTHER REASON
+===================================== */
+
+.lesson-details-cancel-other {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-top: 11px;
+}
+
+
+.lesson-details-cancel-other label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #475569;
+
+  font-size: 8px;
+  font-weight: 600;
+}
+
+
+.lesson-details-cancel-other textarea {
+  width: 100%;
+
+  min-height: 74px;
+
+  resize: vertical;
+
+  padding:
+    9px
+    10px
+    22px;
+
+  border:
+    1px solid #dfe5ec;
+
+  border-radius: 6px;
+
+  outline: none;
+
+  background-color: #ffffff;
+
+  color: #334155;
+
+  font-family: inherit;
+
+  font-size: 9px;
+
+  line-height: 1.55;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+
+.lesson-details-cancel-other textarea:focus {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      37,
+      99,
+      235,
+      0.06
+    );
+}
+
+
+.lesson-details-cancel-other > span {
+  position: absolute;
+
+  right: 9px;
+  bottom: 8px;
+
+  color: #a1aab7;
+
+  font-size: 7px;
+}
+
+
+/* =====================================
+   NOTE
+===================================== */
+
+.lesson-details-cancel-note {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 7px;
+
+  margin:
+    0
+    21px;
+
+  padding:
+    10px
+    11px;
+
+  border:
+    1px solid #e0e7ff;
+
+  border-radius: 6px;
+
+  background-color: #f8faff;
+
+  color: #64748b;
+
+  font-size: 8px;
+
+  line-height: 1.55;
+}
+
+
+.lesson-details-cancel-note svg {
+  flex-shrink: 0;
+
+  margin-top: 1px;
+
+  color: #2563eb;
+}
+
+
+/* =====================================
+   ACTIONS
+===================================== */
+
+.lesson-details-cancel-actions {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 8px;
+
+  margin-top: 19px;
+
+  padding:
+    16px
+    21px;
+
+  border-top:
+    1px solid #eef1f4;
+
+  background-color: #fafbfd;
+}
+
+
+.lesson-details-cancel-keep,
+.lesson-details-cancel-confirm {
+  height: 35px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0
+    13px;
+
+  border-radius: 5px;
+
+  font-family: inherit;
+
+  font-size: 8.5px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+
+.lesson-details-cancel-keep {
+  border:
+    1px solid #dce2e9;
+
+  background-color: #ffffff;
+
+  color: #475569;
+}
+
+
+.lesson-details-cancel-keep:hover {
+  border-color: #bdc7d4;
+
+  background-color: #f8fafc;
+}
+
+
+.lesson-details-cancel-confirm {
+  border:
+    1px solid #dc2626;
+
+  background-color: #dc2626;
+
+  color: #ffffff;
+}
+
+
+.lesson-details-cancel-confirm:hover:not(:disabled) {
+  border-color: #b91c1c;
+
+  background-color: #b91c1c;
+}
+
+
+.lesson-details-cancel-confirm:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+  .lesson-details-cancel-backdrop {
+    align-items: flex-end;
+
+    padding: 12px;
+  }
+
+
+  .lesson-details-cancel-modal {
+    max-width: none;
+
+    max-height:
+      calc(
+        100vh - 24px
+      );
+
+    overflow-y: auto;
+  }
+
+
+  .lesson-details-cancel-header {
+    padding:
+      18px
+      17px
+      15px;
+  }
+
+
+  .lesson-details-cancel-summary {
+    margin:
+      15px
+      17px
+      0;
+  }
+
+
+  .lesson-details-cancel-section {
+    padding: 17px;
+  }
+
+
+  .lesson-details-cancel-note {
+    margin:
+      0
+      17px;
+  }
+
+
+  .lesson-details-cancel-actions {
+    padding:
+      14px
+      17px;
+  }
+
+
+  .lesson-details-cancel-keep,
+  .lesson-details-cancel-confirm {
+    flex: 1;
+  }
+
+}

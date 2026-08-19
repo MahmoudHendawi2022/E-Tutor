@@ -1,0 +1,1157 @@
+/* ======================================
+   ROOT
+====================================== */
+
+.student-layout {
+  min-height: 100vh;
+
+  display: flex;
+
+  background-color: #f8fafc;
+
+  color: #0f172a;
+}
+
+
+/* ======================================
+   SIDEBAR
+====================================== */
+
+.student-sidebar {
+  position: fixed;
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  z-index: 1200;
+
+  width: 230px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding:
+    0
+    14px
+    18px;
+
+  border-right:
+    1px solid #e8edf2;
+
+  background-color: #ffffff;
+}
+
+
+/* ======================================
+   SIDEBAR TOP
+====================================== */
+
+.student-sidebar-top {
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding:
+    0
+    8px;
+
+  border-bottom:
+    1px solid #f0f2f5;
+}
+
+
+.student-sidebar-logo {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #0f172a;
+}
+
+
+.student-sidebar-logo svg {
+  color: #2563eb;
+}
+
+
+.student-sidebar-logo span {
+  font-size: 17px;
+  font-weight: 700;
+
+  letter-spacing: -0.4px;
+}
+
+
+.student-sidebar-close {
+  width: 34px;
+  height: 34px;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: transparent;
+
+  color: #64748b;
+
+  cursor: pointer;
+}
+
+
+.student-sidebar-close:hover {
+  background-color: #f8fafc;
+
+  color: #0f172a;
+}
+
+
+/* ======================================
+   NAVIGATION
+====================================== */
+
+.student-sidebar-nav {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  padding-top: 24px;
+}
+
+
+.student-nav-label {
+  display: block;
+
+  padding:
+    0
+    10px;
+
+  margin-bottom: 8px;
+
+  color: #a1aab7;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+.student-nav-link {
+  position: relative;
+
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    0
+    11px;
+
+  border-radius: 6px;
+
+  color: #64748b;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+
+.student-nav-link svg {
+  flex-shrink: 0;
+}
+
+
+.student-nav-link:hover {
+  background-color: #f8fafc;
+
+  color: #334155;
+}
+
+
+.student-nav-link.active {
+  background-color: #eff5ff;
+
+  color: #2563eb;
+
+  font-weight: 600;
+}
+
+
+.student-nav-link.active::before {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  left: -14px;
+
+  width: 3px;
+  height: 20px;
+
+  border-radius:
+    0
+    3px
+    3px
+    0;
+
+  background-color: #2563eb;
+
+  transform:
+    translateY(-50%);
+}
+
+
+/* ======================================
+   SIDEBAR BOTTOM
+====================================== */
+
+.student-sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid #eef1f4;
+}
+
+
+.student-logout {
+  width: 100%;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    0
+    11px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: transparent;
+
+  color: #64748b;
+
+  font-family: inherit;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+
+.student-logout:hover {
+  background-color: #fef2f2;
+
+  color: #dc2626;
+}
+
+
+/* ======================================
+   OVERLAY
+====================================== */
+
+.student-sidebar-overlay {
+  display: none;
+}
+
+
+/* ======================================
+   CONTENT
+====================================== */
+
+.student-layout-content {
+  width:
+    calc(
+      100% - 230px
+    );
+
+  min-height: 100vh;
+
+  margin-left: 230px;
+}
+
+
+/* ======================================
+   TOPBAR
+====================================== */
+
+.student-topbar {
+  position: sticky;
+
+  top: 0;
+
+  z-index: 800;
+
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding:
+    0
+    32px;
+
+  border-bottom:
+    1px solid #e8edf2;
+
+  background-color:
+    rgba(
+      255,
+      255,
+      255,
+      0.96
+    );
+
+  backdrop-filter:
+    blur(8px);
+}
+
+
+.student-topbar-left {
+  display: flex;
+  align-items: center;
+}
+
+
+.student-topbar-right {
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  margin-left: auto;
+}
+
+
+/* ======================================
+   MOBILE MENU
+====================================== */
+
+.student-menu-button {
+  width: 36px;
+  height: 36px;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+
+  background-color: #ffffff;
+
+  color: #475569;
+
+  cursor: pointer;
+}
+
+
+.student-mobile-logo {
+  display: none;
+  align-items: center;
+
+  gap: 7px;
+
+  margin-left: 8px;
+
+  color: #0f172a;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+
+.student-mobile-logo svg {
+  color: #2563eb;
+}
+
+
+/* ======================================
+   FIND TUTOR
+====================================== */
+
+.student-find-tutor {
+  height: 36px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 6px;
+
+  padding:
+    0
+    12px;
+
+  border:
+    1px solid #dce2ea;
+
+  border-radius: 6px;
+
+  background-color: #ffffff;
+
+  color: #475569;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+
+.student-find-tutor:hover {
+  border-color: #bcc7d5;
+
+  background-color: #f8fafc;
+
+  color: #2563eb;
+}
+
+
+/* ======================================
+   NOTIFICATION
+====================================== */
+
+.student-notification {
+  position: relative;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border:
+    1px solid #e2e7ed;
+
+  border-radius: 6px;
+
+  background-color: #ffffff;
+
+  color: #64748b;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+
+.student-notification:hover {
+  border-color: #cbd5e1;
+
+  background-color: #f8fafc;
+
+  color: #334155;
+}
+
+
+.student-notification-dot {
+  position: absolute;
+
+  top: 8px;
+  right: 8px;
+
+  width: 5px;
+  height: 5px;
+
+  border:
+    1px solid #ffffff;
+
+  border-radius: 50%;
+
+  background-color: #ef4444;
+}
+
+
+/* ======================================
+   USER
+====================================== */
+
+.student-user {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 4px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: transparent;
+
+  font-family: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease;
+}
+
+
+.student-user:hover {
+  background-color: #f8fafc;
+}
+
+
+.student-user-avatar {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background-color: #e9f0ff;
+
+  color: #2563eb;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+.student-user-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+
+.student-user-info strong {
+  color: #334155;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+
+.student-user-info span {
+  color: #94a3b8;
+
+  font-size: 8px;
+}
+
+
+/* ======================================
+   OUTLET
+====================================== */
+
+.student-layout-outlet {
+  min-height:
+    calc(
+      100vh - 72px
+    );
+}
+
+
+/* ======================================
+   TABLET
+====================================== */
+
+@media (max-width: 850px) {
+
+  .student-sidebar {
+    width: 240px;
+
+    transform:
+      translateX(-100%);
+
+    transition:
+      transform 0.25s ease;
+  }
+
+
+  .student-sidebar.open {
+    transform:
+      translateX(0);
+  }
+
+
+  .student-sidebar-close {
+    display: flex;
+  }
+
+
+  .student-sidebar-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1100;
+
+    display: block;
+
+    background-color:
+      rgba(
+        15,
+        23,
+        42,
+        0.35
+      );
+  }
+
+
+  .student-layout-content {
+    width: 100%;
+
+    margin-left: 0;
+  }
+
+
+  .student-topbar {
+    padding:
+      0
+      20px;
+  }
+
+
+  .student-menu-button {
+    display: flex;
+  }
+
+
+  .student-mobile-logo {
+    display: flex;
+  }
+
+}
+
+
+/* ======================================
+   MOBILE
+====================================== */
+
+@media (max-width: 600px) {
+
+  .student-topbar {
+    height: 64px;
+
+    padding:
+      0
+      14px;
+  }
+
+
+  .student-layout-outlet {
+    min-height:
+      calc(
+        100vh - 64px
+      );
+  }
+
+
+  .student-find-tutor {
+    display: none;
+  }
+
+
+  .student-user-info {
+    display: none;
+  }
+
+
+  .student-topbar-right {
+    gap: 6px;
+  }
+
+}
+
+/* =====================================
+   MESSAGE BADGE
+===================================== */
+
+.student-nav-link .student-nav-title {
+  min-width: 0;
+}
+
+
+.student-nav-badge {
+  min-width: 18px;
+  height: 18px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  margin-left: auto;
+
+  padding:
+    0
+    5px;
+
+  border-radius: 20px;
+
+  background-color: #2563eb;
+
+  color: #ffffff;
+
+  font-size: 7px;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+
+.student-nav-link.active
+.student-nav-badge {
+  background-color: #ffffff;
+
+  color: #2563eb;
+}
+
+/* =====================================
+   NOTIFICATIONS
+===================================== */
+
+.student-notification-wrapper {
+  position: relative;
+}
+
+
+.student-notification {
+  position: relative;
+}
+
+
+.student-notification.active {
+  background-color: #f4f7fb;
+
+  color: #2563eb;
+}
+
+
+.student-notification-count {
+  position: absolute;
+
+  top: -4px;
+  right: -5px;
+
+  min-width: 16px;
+  height: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding:
+    0
+    4px;
+
+  border:
+    2px solid #ffffff;
+
+  border-radius: 20px;
+
+  background-color: #ef4444;
+
+  color: #ffffff;
+
+  font-size: 6.5px;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+
+/* PANEL */
+
+.student-notifications-panel {
+  position: absolute;
+
+  top:
+    calc(
+      100% + 12px
+    );
+
+  right: 0;
+
+  z-index: 1500;
+
+  width: 360px;
+  max-height: 460px;
+
+  overflow: hidden;
+
+  border:
+    1px solid #e4e9ef;
+
+  border-radius: 8px;
+
+  background-color: #ffffff;
+
+  box-shadow:
+    0 18px 45px
+    rgba(
+      15,
+      23,
+      42,
+      0.12
+    );
+}
+
+
+/* HEADER */
+
+.student-notifications-header {
+  min-height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding:
+    13px
+    15px;
+
+  border-bottom:
+    1px solid #edf0f3;
+}
+
+
+.student-notifications-header > div {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+
+.student-notifications-header strong {
+  color: #1e293b;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+.student-notifications-header span {
+  color: #94a3b8;
+
+  font-size: 7px;
+}
+
+
+.student-notifications-header button {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 4px;
+
+  flex-shrink: 0;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #2563eb;
+
+  font-family: inherit;
+
+  font-size: 7px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+
+/* LIST */
+
+.student-notifications-list {
+  max-height: 390px;
+
+  overflow-y: auto;
+}
+
+
+.student-notification-item {
+  position: relative;
+
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    35px
+    minmax(0, 1fr);
+
+  gap: 10px;
+
+  padding:
+    13px
+    15px;
+
+  border: none;
+  border-bottom:
+    1px solid #f0f2f5;
+
+  background-color: #ffffff;
+
+  font-family: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background-color
+      0.16s ease;
+}
+
+
+.student-notification-item:hover {
+  background-color: #f9fbfd;
+}
+
+
+.student-notification-item.unread {
+  background-color: #f7faff;
+}
+
+
+.student-notification-item.unread:hover {
+  background-color: #f2f7ff;
+}
+
+
+/* ICON */
+
+.student-notification-icon {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 7px;
+
+  background-color: #eff6ff;
+
+  color: #2563eb;
+}
+
+
+.student-notification-icon.message {
+  background-color: #eff6ff;
+
+  color: #2563eb;
+}
+
+
+.student-notification-icon.lesson,
+.student-notification-icon.booking {
+  background-color: #f0fdf4;
+
+  color: #16a34a;
+}
+
+
+.student-notification-icon.review {
+  background-color: #fffbeb;
+
+  color: #f59e0b;
+}
+
+
+/* CONTENT */
+
+.student-notification-content {
+  min-width: 0;
+}
+
+
+.student-notification-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  margin-bottom: 4px;
+}
+
+
+.student-notification-title strong {
+  overflow: hidden;
+
+  color: #334155;
+
+  font-size: 8.5px;
+  font-weight: 650;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+.student-notification-title > span {
+  width: 6px;
+  height: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background-color: #2563eb;
+}
+
+
+.student-notification-content p {
+  display: -webkit-box;
+
+  overflow: hidden;
+
+  margin:
+    0
+    0
+    5px;
+
+  color: #64748b;
+
+  font-size: 7.5px;
+
+  line-height: 1.55;
+
+  -webkit-box-orient: vertical;
+
+  -webkit-line-clamp: 2;
+}
+
+
+.student-notification-content small {
+  color: #a1aab7;
+
+  font-size: 6.5px;
+}
+
+
+/* EMPTY */
+
+.student-notifications-empty {
+  min-height: 180px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  gap: 6px;
+
+  padding: 25px;
+
+  color: #94a3b8;
+
+  text-align: center;
+}
+
+
+.student-notifications-empty svg {
+  margin-bottom: 3px;
+
+  color: #cbd5e1;
+}
+
+
+.student-notifications-empty strong {
+  color: #475569;
+
+  font-size: 9px;
+}
+
+
+.student-notifications-empty span {
+  font-size: 7.5px;
+}
+
+
+/* =====================================
+   MOBILE NOTIFICATIONS
+===================================== */
+
+@media (max-width: 650px) {
+
+  .student-notifications-panel {
+    position: fixed;
+
+    top: 62px;
+    right: 12px;
+    left: 12px;
+
+    width: auto;
+
+    max-height:
+      calc(
+        100vh - 80px
+      );
+  }
+
+
+  .student-notifications-list {
+    max-height:
+      calc(
+        100vh - 150px
+      );
+  }
+
+}
