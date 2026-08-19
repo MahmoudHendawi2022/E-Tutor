@@ -15,6 +15,7 @@ import {
 import { motion } from "motion/react";
 
 import { useAuth } from "../../context/AuthContext";
+import { useTutors } from "../../context/TutorsContext";
 
 import "./signIn.css";
 
@@ -24,6 +25,8 @@ function SignIn() {
   const location = useLocation();
 
   const { user, isAuthenticated, login } = useAuth();
+
+  const { getTutorByUserId, getTutorById } = useTutors();
 
   const [role, setRole] = useState("student");
 
@@ -53,6 +56,30 @@ function SignIn() {
     }
 
     setPassword("123456");
+  };
+
+  /* =====================================
+     TUTOR DESTINATION
+  ===================================== */
+
+  const getTutorDestination = (account) => {
+    if (!account || account.role !== "tutor") {
+      return "/dashboard";
+    }
+
+    const tutor =
+      getTutorByUserId(account.id) ||
+      getTutorById(account.tutorId);
+
+    if (!tutor || tutor.status === "draft" || !tutor.profileCompleted) {
+      return "/tutor/onboarding";
+    }
+
+    if (tutor.status === "approved") {
+      return "/tutor/dashboard";
+    }
+
+    return "/tutor/application-status";
   };
 
   /* =====================================
@@ -89,6 +116,27 @@ function SignIn() {
 
       const requestedPath = location.state?.from;
 
+      if (result.user.role === "tutor") {
+        const tutorDestination = getTutorDestination(result.user);
+
+        if (
+          tutorDestination === "/tutor/dashboard" &&
+          requestedPath?.startsWith("/tutor/")
+        ) {
+          navigate(requestedPath, {
+            replace: true,
+          });
+
+          return;
+        }
+
+        navigate(tutorDestination, {
+          replace: true,
+        });
+
+        return;
+      }
+
       if (requestedPath) {
         navigate(requestedPath, {
           replace: true,
@@ -97,7 +145,7 @@ function SignIn() {
         return;
       }
 
-      navigate(role === "tutor" ? "/tutor/dashboard" : "/dashboard", {
+      navigate("/dashboard", {
         replace: true,
       });
     }, 450);
@@ -110,7 +158,7 @@ function SignIn() {
   if (isAuthenticated) {
     return (
       <Navigate
-        to={user.role === "tutor" ? "/tutor/dashboard" : "/dashboard"}
+        to={user.role === "tutor" ? getTutorDestination(user) : "/dashboard"}
         replace
       />
     );

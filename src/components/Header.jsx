@@ -1,5 +1,6 @@
 import {
   ChevronDown,
+  Clock3,
   GraduationCap,
   LayoutDashboard,
   LogOut,
@@ -17,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useAuth } from "../context/AuthContext";
+import { useTutors } from "../context/TutorsContext";
 
 import "./header.css";
 
@@ -104,6 +106,8 @@ function Header() {
 
   const { user, isAuthenticated, logout } = useAuth();
 
+  const { getTutorByUserId, getTutorById } = useTutors();
+
   const [openMenu, setOpenMenu] = useState(false);
 
   const [profileOpen, setProfileOpen] = useState(false);
@@ -116,7 +120,44 @@ function Header() {
 
   const isTutor = user?.role === "tutor";
 
-  const dashboardPath = isTutor ? "/tutor/dashboard" : "/dashboard";
+  const tutor = isTutor
+    ? getTutorByUserId(user?.id) || getTutorById(user?.tutorId)
+    : null;
+
+  const tutorStatus = tutor?.status || user?.approvalStatus || "draft";
+
+  const tutorApproved = isTutor && tutorStatus === "approved";
+
+  const tutorNeedsApplication =
+    isTutor && (!tutor || tutorStatus === "draft" || !tutor.profileCompleted);
+
+  const dashboardPath = !isTutor
+    ? "/dashboard"
+    : tutorApproved
+      ? "/tutor/dashboard"
+      : tutorNeedsApplication
+        ? "/tutor/onboarding"
+        : "/tutor/application-status";
+
+  const dashboardLabel = !isTutor
+    ? "Dashboard"
+    : tutorApproved
+      ? "Dashboard"
+      : tutorNeedsApplication
+        ? "Complete application"
+        : "Application status";
+
+  const tutorAccountTitle = tutorApproved
+    ? "Tutor Dashboard"
+    : tutorNeedsApplication
+      ? "Complete application"
+      : "Application status";
+
+  const tutorAccountDescription = tutorApproved
+    ? "Manage your teaching"
+    : tutorNeedsApplication
+      ? "Finish your tutor profile"
+      : "Track your review status";
 
   const firstName = user?.firstName || user?.fullName?.split(" ")[0] || "User";
 
@@ -256,8 +297,12 @@ function Header() {
               {/* Dashboard */}
 
               <Link to={dashboardPath} className="header-dashboard-button">
-                <LayoutDashboard size={15} />
-                Dashboard
+                {isTutor && !tutorApproved ? (
+                  <Clock3 size={15} />
+                ) : (
+                  <LayoutDashboard size={15} />
+                )}
+                {dashboardLabel}
               </Link>
 
               {/* Profile */}
@@ -323,12 +368,12 @@ function Header() {
 
                         <div>
                           <strong>
-                            {isTutor ? "Tutor Dashboard" : "My Dashboard"}
+                            {isTutor ? tutorAccountTitle : "My Dashboard"}
                           </strong>
 
                           <span>
                             {isTutor
-                              ? "Manage your teaching"
+                              ? tutorAccountDescription
                               : "View your learning"}
                           </span>
                         </div>
@@ -492,7 +537,7 @@ function Header() {
                   >
                     <LayoutDashboard size={15} />
 
-                    {isTutor ? "Tutor Dashboard" : "My Dashboard"}
+                    {isTutor ? tutorAccountTitle : "My Dashboard"}
                   </Link>
 
                   {!isTutor && (
