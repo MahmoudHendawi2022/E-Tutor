@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { useMasterData } from "../../context/MasterDataContext";
+import { FormLabel } from "../../components/forms";
 import "./tutorProfileForm.css";
 
 function createInitialForm(profile, masterData) {
@@ -281,8 +282,12 @@ function TutorProfileForm({ initialData, submitLabel = "Save profile", onSubmit,
           </div>
         </div>
         <div className="tpf-grid">
-          <Field label="First name *"><input name="firstName" value={form.firstName} onChange={updateField} /></Field>
-          <Field label="Last name *"><input name="lastName" value={form.lastName} onChange={updateField} /></Field>
+          <Field label="First name *">
+            <input name="firstName" value={form.firstName} onChange={updateField} />
+          </Field>
+          <Field label="Last name *">
+            <input name="lastName" value={form.lastName} onChange={updateField} />
+          </Field>
         </div>
         <Field label="Professional title *">
           <select name="titleId" value={form.titleId} onChange={updateField}>
@@ -433,8 +438,6 @@ function TutorProfileForm({ initialData, submitLabel = "Save profile", onSubmit,
         )}
       </section>
 
-
-
       <section className="tpf-card">
         <Heading icon={FileCheck2} title="Verification documents" text="These documents are private and visible only to the E-Tutor review team." />
         <div className="tpf-grid">
@@ -516,7 +519,7 @@ function Heading({ icon: Icon, title, text }) {
 }
 
 function Field({ label, children }) {
-  return <div className="tpf-field"><label>{label}</label>{children}</div>;
+  return <div className="tpf-field"><FormLabel>{label}</FormLabel>{children}</div>;
 }
 
 export default TutorProfileForm;
