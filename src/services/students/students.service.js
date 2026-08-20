@@ -36,5 +36,28 @@ export const studentsService = {
     const key = storageKey(studentId);
     if (!key) return;
     storageService.setItem(key, savedTutorIds);
+  },
+
+  saveTutor(savedTutorIds, tutorId, studentId, isPublicTutor) {
+    const id = Number(tutorId);
+    if (!studentId || !isPublicTutor) return savedTutorIds;
+    return savedTutorIds.includes(id) ? savedTutorIds : [...savedTutorIds, id];
+  },
+
+  removeSavedTutor(savedTutorIds, tutorId) {
+    const id = Number(tutorId);
+    return savedTutorIds.filter((savedId) => savedId !== id);
+  },
+
+  toggleSavedTutor(savedTutorIds, tutorId, studentId, isPublicTutor) {
+    const id = Number(tutorId);
+    if (!studentId) return savedTutorIds;
+
+    if (savedTutorIds.includes(id)) {
+      return savedTutorIds.filter((savedId) => savedId !== id);
+    }
+
+    if (!isPublicTutor) return savedTutorIds;
+    return [...savedTutorIds, id];
   }
 };

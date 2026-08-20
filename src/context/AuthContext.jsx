@@ -56,48 +56,23 @@ export function AuthProvider({ children }) {
   const updateUser = useCallback((updates) => {
     setUser((current) => {
       if (!current) return current;
-      const firstName = updates.firstName ?? current.firstName ?? "";
-      const lastName = updates.lastName ?? current.lastName ?? "";
-      const updated = {
-        ...current,
-        ...updates,
-        firstName,
-        lastName,
-        fullName: `${firstName} ${lastName}`.trim() || current.fullName,
-        initials: authService.createInitials(firstName, lastName),
-      };
-
-      setAccountsRaw((accountsCurrent) =>
-        accountsCurrent.map((account) =>
-          Number(account.id) === Number(current.id)
-            ? { ...account, ...updated, password: account.password }
-            : account,
-        ),
-      );
-      return updated;
+      const { user: updatedUser, accounts: updatedAccounts } = authService.updateUser(current, updates, accountsRaw);
+      setAccountsRaw(updatedAccounts);
+      return updatedUser;
     });
     return true;
-  }, []);
+  }, [accountsRaw]);
 
   const updateAccount = useCallback((accountId, updates) => {
-    setAccountsRaw((current) =>
-      current.map((account) =>
-        Number(account.id) === Number(accountId)
-          ? { ...account, ...updates, password: account.password }
-          : account,
-      ),
-    );
-    setUser((current) =>
-      current && Number(current.id) === Number(accountId) ? { ...current, ...updates } : current,
-    );
-  }, []);
+    setUser((current) => {
+      const { user: updatedUser, accounts: updatedAccounts } = authService.updateAccount(accountId, updates, accountsRaw, current);
+      setAccountsRaw(updatedAccounts);
+      return updatedUser;
+    });
+  }, [accountsRaw]);
 
   const setAccountStatus = useCallback((accountId, status) => {
-    setAccountsRaw((current) =>
-      current.map((account) =>
-        Number(account.id) === Number(accountId) ? { ...account, status } : account,
-      ),
-    );
+    setAccountsRaw((current) => authService.setAccountStatus(accountId, status, current));
   }, []);
 
   const getAccountById = useCallback(
@@ -105,7 +80,10 @@ export function AuthProvider({ children }) {
     [accounts],
   );
 
-  const logout = useCallback(() => setUser(null), []);
+  const logout = useCallback(() => {
+    authService.logout();
+    setUser(null);
+  }, []);
 
   const value = useMemo(
     () => ({

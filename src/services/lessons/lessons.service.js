@@ -91,5 +91,142 @@ export const lessonsService = {
       hour: "numeric",
       minute: "2-digit",
     });
+  },
+
+  getTutorCompletionState(lessons, lessonId, tutorId, now = new Date()) {
+    const numericLessonId = Number(lessonId);
+    const numericTutorId = Number(tutorId);
+    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
+
+    if (!targetLesson) {
+      return { canComplete: false, reason: "not_found", availableAt: null };
+    }
+
+    if (Number(targetLesson.tutorId) !== numericTutorId) {
+      return { canComplete: false, reason: "not_owner", availableAt: null };
+    }
+
+    if (targetLesson.status === "completed") {
+      return {
+        canComplete: false,
+        reason: "already_completed",
+        availableAt: targetLesson.completedAt || null,
+      };
+    }
+
+    if (targetLesson.status === "cancelled") {
+      return { canComplete: false, reason: "cancelled", availableAt: null };
+    }
+
+    if (targetLesson.status !== "upcoming") {
+      return { canComplete: false, reason: "invalid_status", availableAt: null };
+    }
+
+    const lessonEnd = this.getLessonEnd(targetLesson);
+    if (!lessonEnd) {
+      return { canComplete: false, reason: "invalid_schedule", availableAt: null };
+    }
+
+    const currentTime = now instanceof Date ? now : new Date(now);
+    if (currentTime.getTime() < lessonEnd.getTime()) {
+      return {
+        canComplete: false,
+        reason: "too_early",
+        availableAt: lessonEnd.toISOString(),
+      };
+    }
+
+    return { canComplete: true, reason: "ready", availableAt: lessonEnd.toISOString() };
+  },
+
+  cancelLesson(lessons, lessonId, reason) {
+    const numericLessonId = Number(lessonId);
+    const cleanReason = reason?.trim();
+    if (!numericLessonId || !cleanReason) {
+      return { success: false, list: lessons };
+    }
+
+    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
+    if (!targetLesson || targetLesson.status !== "upcoming") {
+      return { success: false, list: lessons };
+    }
+
+    const cancelledAt = new Date().toISOString();
+    const list = lessons.map((lesson) =>
+      Number(lesson.id) === numericLessonId
+        ? {
+            ...lesson,
+            status: "cancelled",
+            cancelledBy: "You",
+            cancellationReason: cleanReason,
+            cancelledAt,
+            canJoin: false,
+          }
+        : lesson
+    );
+
+    return { success: true, list, targetLesson, cancelledAt };
+  },
+
+  markLessonCompletedByTutor(lessons, lessonId, tutorId) {
+    const numericLessonId = Number(lessonId);
+    const numericTutorId = Number(tutorId);
+    if (!numericLessonId || !numericTutorId) {
+      return { success: false, list: lessons };
+    }
+
+    const completionState = this.getTutorCompletionState(lessons, numericLessonId, numericTutorId, new Date());
+    if (!completionState.canComplete) {
+      return { success: false, list: lessons };
+    }
+
+    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
+    if (!targetLesson) {
+      return { success: false, list: lessons };
+    }
+
+    const completedAt = new Date().toISOString();
+    const list = lessons.map((lesson) =>
+      Number(lesson.id) === numericLessonId
+        ? {
+            ...lesson,
+            status: "completed",
+            completedByTutor: true,
+            completedByTutorId: numericTutorId,
+            completedAt,
+            canJoin: false,
+          }
+        : lesson
+    );
+
+    return { success: true, list, targetLesson, completedAt };
+  },
+
+  submitLessonReview(lessons, lessonId, reviewData) {
+    const numericLessonId = Number(lessonId);
+    if (!numericLessonId) {
+      return { success: false, list: lessons };
+    }
+
+    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
+    if (!targetLesson || targetLesson.status !== "completed" || targetLesson.reviewed) {
+      return { success: false, list: lessons };
+    }
+
+    const rating = Number(reviewData?.rating);
+    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
+      return { success: false, list: lessons };
+    }
+
+    const review = reviewData?.review?.trim() || "";
+    const reviewedAt = reviewData?.reviewedAt || new Date().toISOString();
+
+    const list = lessons.map((lesson) =>
+      Number(lesson.id) === numericLessonId
+        ? { ...lesson, rating, review, reviewed: true, reviewedAt }
+        : lesson
+    );
+
+    return { success: true, list, targetLesson };
   }
 };

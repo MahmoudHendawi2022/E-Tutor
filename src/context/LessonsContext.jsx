@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useTutors } from "./TutorsContext";
 import { useNotifications } from "./NotificationsContext";
 import { lessonsService } from "../services/lessons/lessons.service";
@@ -72,7 +72,7 @@ export function LessonsProvider({ children }) {
     };
   }, [lessons, addNotification, getTutorById]);
 
-  const addLesson = (newLesson) => {
+  const addLesson = useCallback((newLesson) => {
     const normalizedLesson = lessonsService.normalizeLesson(newLesson);
     setLessons((current) => {
       const exists = normalizedLesson.bookingId
@@ -84,9 +84,9 @@ export function LessonsProvider({ children }) {
       }
       return [normalizedLesson, ...current];
     });
-  };
+  }, []);
 
-  const updateLesson = (lessonId, updates) => {
+  const updateLesson = useCallback((lessonId, updates) => {
     const numericLessonId = Number(lessonId);
     setLessons((current) =>
       current.map((lesson) =>
@@ -95,204 +95,99 @@ export function LessonsProvider({ children }) {
           : lesson
       )
     );
-  };
+  }, []);
 
-  const cancelLesson = (lessonId, reason) => {
-    const numericLessonId = Number(lessonId);
-    const cleanReason = reason?.trim();
-    if (!numericLessonId || !cleanReason) {
-      return false;
-    }
-
-    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
-    if (!targetLesson || targetLesson.status !== "upcoming") {
-      return false;
-    }
-
-    const cancelledAt = new Date().toISOString();
-    removeNotificationsByKeyPrefix(`lesson-reminder-${numericLessonId}-`);
-
-    setLessons((current) =>
-      current.map((lesson) =>
-        Number(lesson.id) === numericLessonId
-          ? {
-              ...lesson,
-              status: "cancelled",
-              cancelledBy: "You",
-              cancellationReason: cleanReason,
-              cancelledAt,
-              canJoin: false,
-            }
-          : lesson
-      )
-    );
-
-    const tutor = getTutorById(targetLesson.tutorId);
-    addNotification({
-      type: "lesson",
-      title: "Lesson cancelled",
-      text: tutor
-        ? `Your ${targetLesson.subject} lesson with ${tutor.name} has been cancelled.`
-        : `Your ${targetLesson.subject} lesson has been cancelled.`,
-      to: `/dashboard/lessons/${numericLessonId}`,
+  const cancelLesson = useCallback((lessonId, reason) => {
+    let res;
+    setLessons((current) => {
+      res = lessonsService.cancelLesson(current, lessonId, reason);
+      return res.success ? res.list : current;
     });
 
-    return true;
-  };
-
-  const getTutorCompletionState = (lessonId, tutorId, now = new Date()) => {
-    const numericLessonId = Number(lessonId);
-    const numericTutorId = Number(tutorId);
-    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
-
-    if (!targetLesson) {
-      return { canComplete: false, reason: "not_found", availableAt: null };
+    if (res && res.success) {
+      removeNotificationsByKeyPrefix(`lesson-reminder-${Number(lessonId)}-`);
+      const tutor = getTutorById(res.targetLesson.tutorId);
+      addNotification({
+        type: "lesson",
+        title: "Lesson cancelled",
+        text: tutor
+          ? `Your ${res.targetLesson.subject} lesson with ${tutor.name} has been cancelled.`
+          : `Your ${res.targetLesson.subject} lesson has been cancelled.`,
+        to: `/dashboard/lessons/${Number(lessonId)}`,
+      });
+      return true;
     }
+    return false;
+  }, [getTutorById, addNotification, removeNotificationsByKeyPrefix]);
 
-    if (Number(targetLesson.tutorId) !== numericTutorId) {
-      return { canComplete: false, reason: "not_owner", availableAt: null };
-    }
+  const getTutorCompletionState = useCallback((lessonId, tutorId, now = new Date()) => {
+    return lessonsService.getTutorCompletionState(lessons, lessonId, tutorId, now);
+  }, [lessons]);
 
-    if (targetLesson.status === "completed") {
-      return {
-        canComplete: false,
-        reason: "already_completed",
-        availableAt: targetLesson.completedAt || null,
-      };
-    }
-
-    if (targetLesson.status === "cancelled") {
-      return { canComplete: false, reason: "cancelled", availableAt: null };
-    }
-
-    if (targetLesson.status !== "upcoming") {
-      return { canComplete: false, reason: "invalid_status", availableAt: null };
-    }
-
-    const lessonEnd = lessonsService.getLessonEnd(targetLesson);
-    if (!lessonEnd) {
-      return { canComplete: false, reason: "invalid_schedule", availableAt: null };
-    }
-
-    const currentTime = now instanceof Date ? now : new Date(now);
-    if (currentTime.getTime() < lessonEnd.getTime()) {
-      return {
-        canComplete: false,
-        reason: "too_early",
-        availableAt: lessonEnd.toISOString(),
-      };
-    }
-
-    return { canComplete: true, reason: "ready", availableAt: lessonEnd.toISOString() };
-  };
-
-  const markLessonCompletedByTutor = (lessonId, tutorId) => {
-    const numericLessonId = Number(lessonId);
-    const numericTutorId = Number(tutorId);
-    if (!numericLessonId || !numericTutorId) {
-      return false;
-    }
-
-    const completionState = getTutorCompletionState(numericLessonId, numericTutorId, new Date());
-    if (!completionState.canComplete) {
-      return false;
-    }
-
-    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
-    if (!targetLesson) {
-      return false;
-    }
-
-    const completedAt = new Date().toISOString();
-    removeNotificationsByKeyPrefix(`lesson-reminder-${numericLessonId}-`);
-
-    setLessons((current) =>
-      current.map((lesson) =>
-        Number(lesson.id) === numericLessonId
-          ? {
-              ...lesson,
-              status: "completed",
-              completedByTutor: true,
-              completedByTutorId: numericTutorId,
-              completedAt,
-              canJoin: false,
-            }
-          : lesson
-      )
-    );
-
-    const tutor = getTutorById(numericTutorId);
-    addNotification({
-      key: `lesson-completed-${numericLessonId}`,
-      type: "lesson",
-      title: "Lesson completed",
-      text: tutor
-        ? `Your ${targetLesson.subject} lesson with ${tutor.name} has been marked as completed. You can now leave a review.`
-        : `Your ${targetLesson.subject} lesson has been marked as completed. You can now leave a review.`,
-      to: `/dashboard/lessons/${numericLessonId}`,
+  const markLessonCompletedByTutor = useCallback((lessonId, tutorId) => {
+    let res;
+    setLessons((current) => {
+      res = lessonsService.markLessonCompletedByTutor(current, lessonId, tutorId);
+      return res.success ? res.list : current;
     });
 
-    return true;
-  };
-
-  const submitLessonReview = (lessonId, reviewData) => {
-    const numericLessonId = Number(lessonId);
-    if (!numericLessonId) {
-      return false;
+    if (res && res.success) {
+      removeNotificationsByKeyPrefix(`lesson-reminder-${Number(lessonId)}-`);
+      const tutor = getTutorById(tutorId);
+      addNotification({
+        key: `lesson-completed-${Number(lessonId)}`,
+        type: "lesson",
+        title: "Lesson completed",
+        text: tutor
+          ? `Your ${res.targetLesson.subject} lesson with ${tutor.name} has been marked as completed. You can now leave a review.`
+          : `Your ${res.targetLesson.subject} lesson has been marked as completed. You can now leave a review.`,
+        to: `/dashboard/lessons/${Number(lessonId)}`,
+      });
+      return true;
     }
+    return false;
+  }, [getTutorById, addNotification, removeNotificationsByKeyPrefix]);
 
-    const targetLesson = lessons.find((lesson) => Number(lesson.id) === numericLessonId);
-    if (!targetLesson || targetLesson.status !== "completed" || targetLesson.reviewed) {
-      return false;
-    }
-
-    const rating = Number(reviewData?.rating);
-    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
-      return false;
-    }
-
-    const review = reviewData?.review?.trim() || "";
-    const reviewedAt = reviewData?.reviewedAt || new Date().toISOString();
-
-    setLessons((current) =>
-      current.map((lesson) =>
-        Number(lesson.id) === numericLessonId
-          ? { ...lesson, rating, review, reviewed: true, reviewedAt }
-          : lesson
-      )
-    );
-
-    const tutor = getTutorById(targetLesson.tutorId);
-    addNotification({
-      key: `lesson-review-${numericLessonId}`,
-      type: "review",
-      title: "Review submitted",
-      text: tutor
-        ? `Your review for your ${targetLesson.subject} lesson with ${tutor.name} was submitted successfully.`
-        : `Your review for your ${targetLesson.subject} lesson was submitted successfully.`,
-      to: `/dashboard/lessons/${numericLessonId}`,
+  const submitLessonReview = useCallback((lessonId, reviewData) => {
+    let res;
+    setLessons((current) => {
+      res = lessonsService.submitLessonReview(current, lessonId, reviewData);
+      return res.success ? res.list : current;
     });
 
-    return true;
-  };
+    if (res && res.success) {
+      const tutor = getTutorById(res.targetLesson.tutorId);
+      addNotification({
+        key: `lesson-review-${Number(lessonId)}`,
+        type: "review",
+        title: "Review submitted",
+        text: tutor
+          ? `Your review for your ${res.targetLesson.subject} lesson with ${tutor.name} was submitted successfully.`
+          : `Your review for your ${res.targetLesson.subject} lesson was submitted successfully.`,
+        to: `/dashboard/lessons/${Number(lessonId)}`,
+      });
+      return true;
+    }
+    return false;
+  }, [getTutorById, addNotification]);
 
-  const removeLesson = (lessonId) => {
+  const removeLesson = useCallback((lessonId) => {
     const numericLessonId = Number(lessonId);
     removeNotificationsByKeyPrefix(`lesson-reminder-${numericLessonId}-`);
     setLessons((current) => current.filter((lesson) => Number(lesson.id) !== numericLessonId));
-  };
+  }, [removeNotificationsByKeyPrefix]);
 
-  const getLessonById = (lessonId) => {
+  const getLessonById = useCallback((lessonId) => {
     return lessons.find((lesson) => Number(lesson.id) === Number(lessonId));
-  };
+  }, [lessons]);
 
-  const getLessonsByTutorId = (tutorId) => {
+  const getLessonsByTutorId = useCallback((tutorId) => {
     return lessons.filter((lesson) => Number(lesson.tutorId) === Number(tutorId));
-  };
+  }, [lessons]);
 
-  const getLessonsByStudentId = (studentId) => {
+  const getLessonsByStudentId = useCallback((studentId) => {
     return lessons.filter((lesson) => Number(lesson.studentId) === Number(studentId));
-  };
+  }, [lessons]);
 
   return (
     <LessonsContext.Provider

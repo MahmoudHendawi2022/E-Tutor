@@ -1,41 +1,20 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { storageService } from "../services/storage/storage.service";
+import { platformSettingsService } from "../services/settings/settings.service";
 
 const PlatformSettingsContext = createContext(null);
-const STORAGE_KEY = "etutor_platform_settings_v2";
-
-const defaultSettings = {
-  platformName: "E-Tutor",
-  market: "EG",
-  commissionRate: 20,
-  defaultCurrency: "EGP",
-  minimumPayout: 500,
-  allowPayLater: false,
-  allowCardPayments: true,
-  allowVodafoneCash: true,
-  allowInstapay: true,
-  vodafoneCashNumber: "",
-  instapayHandle: "",
-  tutorAutoApproval: false,
-};
-
-function loadSettings() {
-  const stored = storageService.getItem(STORAGE_KEY, null);
-  return stored ? { ...defaultSettings, ...stored, defaultCurrency: "EGP" } : defaultSettings;
-}
 
 export function PlatformSettingsProvider({ children }) {
-  const [settings, setSettings] = useState(loadSettings);
+  const [settings, setSettings] = useState(() => platformSettingsService.loadSettings());
 
   useEffect(() => {
-    storageService.setItem(STORAGE_KEY, settings);
+    platformSettingsService.saveSettings(settings);
   }, [settings]);
 
   const updateSettings = (updates) => {
     setSettings((current) => ({ ...current, ...updates }));
   };
 
-  const resetSettings = () => setSettings(defaultSettings);
+  const resetSettings = () => setSettings(platformSettingsService.getDefaultSettings());
 
   const value = useMemo(
     () => ({ settings, updateSettings, resetSettings }),

@@ -163,5 +163,58 @@ export const authService = {
     return { success: true, account: newAccount, user: safeAccount(newAccount) };
   },
 
+  getCurrentUser() {
+    return this.loadSession();
+  },
+
+  isLoggedIn() {
+    return !!this.loadSession();
+  },
+
+  logout() {
+    this.saveSession(null);
+  },
+
+  updateUser(currentUser, updates, accountsRaw) {
+    if (!currentUser) return { user: null, accounts: accountsRaw };
+    const firstName = updates.firstName ?? currentUser.firstName ?? "";
+    const lastName = updates.lastName ?? currentUser.lastName ?? "";
+    const updatedUser = {
+      ...currentUser,
+      ...updates,
+      firstName,
+      lastName,
+      fullName: `${firstName} ${lastName}`.trim() || currentUser.fullName,
+      initials: this.createInitials(firstName, lastName),
+    };
+
+    const updatedAccounts = accountsRaw.map((account) =>
+      Number(account.id) === Number(currentUser.id)
+        ? { ...account, ...updatedUser, password: account.password }
+        : account
+    );
+
+    return { user: updatedUser, accounts: updatedAccounts };
+  },
+
+  updateAccount(accountId, updates, accountsRaw, currentUser) {
+    const updatedAccounts = accountsRaw.map((account) =>
+      Number(account.id) === Number(accountId)
+        ? { ...account, ...updates, password: account.password }
+        : account
+    );
+    let updatedUser = currentUser;
+    if (currentUser && Number(currentUser.id) === Number(accountId)) {
+      updatedUser = { ...currentUser, ...updates };
+    }
+    return { user: updatedUser, accounts: updatedAccounts };
+  },
+
+  setAccountStatus(accountId, status, accountsRaw) {
+    return accountsRaw.map((account) =>
+      Number(account.id) === Number(accountId) ? { ...account, status } : account
+    );
+  },
+
   createInitials
 };

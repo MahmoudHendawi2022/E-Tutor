@@ -53,33 +53,21 @@ export function SavedTutorsProvider({ children }) {
   const saveTutor = useCallback(
     (tutorId) => {
       const id = Number(tutorId);
-      if (!studentId || !getPublicTutorById(id)) return;
-
-      setSavedTutorIds((current) =>
-        current.includes(id) ? current : [...current, id],
-      );
+      const isPublicTutor = Boolean(getPublicTutorById(id));
+      setSavedTutorIds((current) => studentsService.saveTutor(current, tutorId, studentId, isPublicTutor));
     },
     [studentId, getPublicTutorById],
   );
 
   const removeSavedTutor = useCallback((tutorId) => {
-    const id = Number(tutorId);
-    setSavedTutorIds((current) => current.filter((savedId) => savedId !== id));
+    setSavedTutorIds((current) => studentsService.removeSavedTutor(current, tutorId));
   }, []);
 
   const toggleSavedTutor = useCallback(
     (tutorId) => {
       const id = Number(tutorId);
-      if (!studentId) return;
-
-      setSavedTutorIds((current) => {
-        if (current.includes(id)) {
-          return current.filter((savedId) => savedId !== id);
-        }
-
-        if (!getPublicTutorById(id)) return current;
-        return [...current, id];
-      });
+      const isPublicTutor = Boolean(getPublicTutorById(id));
+      setSavedTutorIds((current) => studentsService.toggleSavedTutor(current, tutorId, studentId, isPublicTutor));
     },
     [studentId, getPublicTutorById],
   );

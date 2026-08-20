@@ -166,5 +166,148 @@ export const tutorsService = {
     ];
     const percentage = Math.round((requirements.filter(Boolean).length / requirements.length) * 100);
     return { percentage, complete: percentage === 100 };
+  },
+
+  updateTutor(tutors, tutorId, updates) {
+    return tutors.map((tutor) =>
+      Number(tutor.id) === Number(tutorId)
+        ? this.normalizeTutor({
+            ...tutor,
+            ...updates,
+            id: tutor.id,
+            userId: tutor.userId,
+            updatedAt: new Date().toISOString(),
+          })
+        : tutor
+    );
+  },
+
+  saveTutorProfile(tutors, { userId, tutorId, ...profile }) {
+    const existing = tutors.find(
+      (tutor) =>
+        Number(tutor.id) === Number(tutorId) || Number(tutor.userId) === Number(userId)
+    );
+    const now = new Date().toISOString();
+    if (existing) {
+      const updated = this.normalizeTutor({ ...existing, ...profile, updatedAt: now });
+      const list = tutors.map((item) => (Number(item.id) === Number(existing.id) ? updated : item));
+      return { tutor: updated, list };
+    }
+    const created = this.normalizeTutor({
+      ...profile,
+      id: this.nextTutorId(tutors),
+      userId: Number(userId),
+      status: "draft",
+      profileCompleted: false,
+      rating: 0,
+      reviews: 0,
+      lessonsCompleted: 0,
+      createdAt: now,
+      updatedAt: now,
+    });
+    return { tutor: created, list: [...tutors, created] };
+  },
+
+  submitTutorApplication(tutors, { userId, tutorId, ...profile }) {
+    const existing = tutors.find(
+      (tutor) =>
+        Number(tutor.id) === Number(tutorId) || Number(tutor.userId) === Number(userId)
+    );
+    const now = new Date().toISOString();
+    const candidate = this.normalizeTutor({
+      ...(existing || {}),
+      ...profile,
+      id: existing?.id || this.nextTutorId(tutors),
+      userId: Number(userId),
+      status: "pending_review",
+      profileCompleted: true,
+      submittedAt: now,
+      reviewNote: "",
+      rejectionReason: "",
+      createdAt: existing?.createdAt || now,
+      updatedAt: now,
+    });
+    const completion = this.calculateProfileCompletion(candidate);
+    if (!completion.complete) {
+      return {
+        success: false,
+        percentage: completion.percentage,
+        message: "Please complete all required profile information.",
+      };
+    }
+    const exists = tutors.some((item) => Number(item.id) === Number(candidate.id));
+    const list = exists
+      ? tutors.map((item) => (Number(item.id) === Number(candidate.id) ? candidate : item))
+      : [...tutors, candidate];
+    return { success: true, tutor: candidate, list };
+  },
+
+  approveTutor(tutors, tutorId) {
+    return this.updateTutor(tutors, tutorId, {
+      status: "approved",
+      profileCompleted: true,
+      approvedAt: new Date().toISOString(),
+      reviewedAt: new Date().toISOString(),
+      reviewNote: "",
+      rejectionReason: "",
+    });
+  },
+
+  requestTutorChanges(tutors, tutorId, note) {
+    return this.updateTutor(tutors, tutorId, {
+      status: "needs_changes",
+      reviewNote: String(note || "").trim(),
+      reviewedAt: new Date().toISOString(),
+    });
+  },
+
+  rejectTutor(tutors, tutorId, reason) {
+    return this.updateTutor(tutors, tutorId, {
+      status: "rejected",
+      rejectionReason: String(reason || "").trim(),
+      reviewedAt: new Date().toISOString(),
+    });
+  },
+
+  suspendTutor(tutors, tutorId, reason = "") {
+    return this.updateTutor(tutors, tutorId, { status: "suspended", reviewNote: reason });
+  },
+
+  reactivateTutor(tutors, tutorId) {
+    return this.updateTutor(tutors, tutorId, { status: "approved", reviewNote: "" });
+  },
+
+  submitTutorProfileChanges(tutors, tutorId, profile) {
+    const tutor = tutors.find((item) => Number(item.id) === Number(tutorId));
+    if (!tutor) return { success: false };
+    if (tutor.status === "approved") {
+      const list = this.updateTutor(tutors, tutorId, {
+        pendingChanges: profile,
+        profileUpdateStatus: "pending_review",
+      });
+      const updatedTutor = list.find((item) => Number(item.id) === Number(tutorId));
+      return { success: true, pendingReview: true, tutor: updatedTutor, list };
+    }
+    return this.submitTutorApplication(tutors, { userId: tutor.userId, tutorId: tutor.id, ...profile });
+  },
+
+  approveTutorChanges(tutors, tutorId) {
+    const tutor = tutors.find((item) => Number(item.id) === Number(tutorId));
+    if (!tutor?.pendingChanges) return { success: false, list: tutors };
+    const list = this.updateTutor(tutors, tutorId, {
+      ...tutor.pendingChanges,
+      pendingChanges: null,
+      profileUpdateStatus: null,
+      reviewNote: "",
+    });
+    return { success: true, list };
+  },
+
+  rejectTutorChanges(tutors, tutorId, reason) {
+    return this.updateTutor(tutors, tutorId, {
+      pendingChanges: null,
+      profileUpdateStatus: "rejected",
+      reviewNote: reason || "",
+    });
   }
 };

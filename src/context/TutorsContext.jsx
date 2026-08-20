@@ -28,174 +28,97 @@ export function TutorsProvider({ children }) {
   );
 
   const updateTutor = useCallback((tutorId, updates) => {
-    setTutors((current) =>
-      current.map((tutor) =>
-        Number(tutor.id) === Number(tutorId)
-          ? tutorsService.normalizeTutor({
-              ...tutor,
-              ...updates,
-              id: tutor.id,
-              userId: tutor.userId,
-              updatedAt: new Date().toISOString(),
-            })
-          : tutor,
-      ),
-    );
+    setTutors((current) => tutorsService.updateTutor(current, tutorId, updates));
   }, []);
 
   const saveTutorProfile = useCallback(
     ({ userId, tutorId, ...profile }) => {
-      const existing = tutors.find(
-        (tutor) =>
-          Number(tutor.id) === Number(tutorId) || Number(tutor.userId) === Number(userId),
-      );
-      const now = new Date().toISOString();
-      if (existing) {
-        const updated = tutorsService.normalizeTutor({ ...existing, ...profile, updatedAt: now });
-        setTutors((current) =>
-          current.map((item) => (Number(item.id) === Number(existing.id) ? updated : item)),
-        );
-        return updated;
-      }
-      const created = tutorsService.normalizeTutor({
-        ...profile,
-        id: tutorsService.nextTutorId(tutors),
-        userId: Number(userId),
-        status: "draft",
-        profileCompleted: false,
-        rating: 0,
-        reviews: 0,
-        lessonsCompleted: 0,
-        createdAt: now,
-        updatedAt: now,
+      let res;
+      setTutors((current) => {
+        res = tutorsService.saveTutorProfile(current, { userId, tutorId, ...profile });
+        return res.list;
       });
-      setTutors((current) => [...current, created]);
-      return created;
+      return res?.tutor;
     },
-    [tutors],
+    [],
   );
 
   const submitTutorApplication = useCallback(
     ({ userId, tutorId, ...profile }) => {
-      const existing = tutors.find(
-        (tutor) =>
-          Number(tutor.id) === Number(tutorId) || Number(tutor.userId) === Number(userId),
-      );
-      const now = new Date().toISOString();
-      const candidate = tutorsService.normalizeTutor({
-        ...(existing || {}),
-        ...profile,
-        id: existing?.id || tutorsService.nextTutorId(tutors),
-        userId: Number(userId),
-        status: "pending_review",
-        profileCompleted: true,
-        submittedAt: now,
-        reviewNote: "",
-        rejectionReason: "",
-        createdAt: existing?.createdAt || now,
-        updatedAt: now,
-      });
-      const completion = tutorsService.calculateProfileCompletion(candidate);
-      if (!completion.complete) {
-        return {
-          success: false,
-          percentage: completion.percentage,
-          message: "Please complete all required profile information.",
-        };
-      }
+      let res;
       setTutors((current) => {
-        const exists = current.some((item) => Number(item.id) === Number(candidate.id));
-        return exists
-          ? current.map((item) => (Number(item.id) === Number(candidate.id) ? candidate : item))
-          : [...current, candidate];
+        res = tutorsService.submitTutorApplication(current, { userId, tutorId, ...profile });
+        return res.success ? res.list : current;
       });
-      return { success: true, tutor: candidate };
+      return res;
     },
-    [tutors],
+    [],
   );
 
   const approveTutor = useCallback(
-    (tutorId) =>
-      updateTutor(tutorId, {
-        status: "approved",
-        profileCompleted: true,
-        approvedAt: new Date().toISOString(),
-        reviewedAt: new Date().toISOString(),
-        reviewNote: "",
-        rejectionReason: "",
-      }),
-    [updateTutor],
+    (tutorId) => {
+      setTutors((current) => tutorsService.approveTutor(current, tutorId));
+    },
+    [],
   );
 
   const requestTutorChanges = useCallback(
-    (tutorId, note) =>
-      updateTutor(tutorId, {
-        status: "needs_changes",
-        reviewNote: String(note || "").trim(),
-        reviewedAt: new Date().toISOString(),
-      }),
-    [updateTutor],
+    (tutorId, note) => {
+      setTutors((current) => tutorsService.requestTutorChanges(current, tutorId, note));
+    },
+    [],
   );
 
   const rejectTutor = useCallback(
-    (tutorId, reason) =>
-      updateTutor(tutorId, {
-        status: "rejected",
-        rejectionReason: String(reason || "").trim(),
-        reviewedAt: new Date().toISOString(),
-      }),
-    [updateTutor],
+    (tutorId, reason) => {
+      setTutors((current) => tutorsService.rejectTutor(current, tutorId, reason));
+    },
+    [],
   );
 
   const suspendTutor = useCallback(
-    (tutorId, reason = "") => updateTutor(tutorId, { status: "suspended", reviewNote: reason }),
-    [updateTutor],
+    (tutorId, reason = "") => {
+      setTutors((current) => tutorsService.suspendTutor(current, tutorId, reason));
+    },
+    [],
   );
 
   const reactivateTutor = useCallback(
-    (tutorId) => updateTutor(tutorId, { status: "approved", reviewNote: "" }),
-    [updateTutor],
+    (tutorId) => {
+      setTutors((current) => tutorsService.reactivateTutor(current, tutorId));
+    },
+    [],
   );
 
   const submitTutorProfileChanges = useCallback(
     (tutorId, profile) => {
-      const tutor = getTutorById(tutorId);
-      if (!tutor) return { success: false };
-      if (tutor.status === "approved") {
-        updateTutor(tutorId, {
-          pendingChanges: profile,
-          profileUpdateStatus: "pending_review",
-        });
-        return { success: true, pendingReview: true };
-      }
-      return submitTutorApplication({ userId: tutor.userId, tutorId: tutor.id, ...profile });
+      let res;
+      setTutors((current) => {
+        res = tutorsService.submitTutorProfileChanges(current, tutorId, profile);
+        return res.success ? res.list : current;
+      });
+      return res;
     },
-    [getTutorById, updateTutor, submitTutorApplication],
+    [],
   );
 
   const approveTutorChanges = useCallback(
     (tutorId) => {
-      const tutor = getTutorById(tutorId);
-      if (!tutor?.pendingChanges) return false;
-      updateTutor(tutorId, {
-        ...tutor.pendingChanges,
-        pendingChanges: null,
-        profileUpdateStatus: null,
-        reviewNote: "",
+      let res;
+      setTutors((current) => {
+        res = tutorsService.approveTutorChanges(current, tutorId);
+        return res.success ? res.list : current;
       });
-      return true;
+      return res ? res.success : false;
     },
-    [getTutorById, updateTutor],
+    [],
   );
 
   const rejectTutorChanges = useCallback(
-    (tutorId, reason) =>
-      updateTutor(tutorId, {
-        pendingChanges: null,
-        profileUpdateStatus: "rejected",
-        reviewNote: reason || "",
-      }),
-    [updateTutor],
+    (tutorId, reason) => {
+      setTutors((current) => tutorsService.rejectTutorChanges(current, tutorId, reason));
+    },
+    [],
   );
 
   const publicTutors = useMemo(
