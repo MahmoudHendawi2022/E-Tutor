@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { storageService } from "../services/storage/storage.service";
 
 const MasterDataContext = createContext(null);
 const STORAGE_KEY = "etutor_master_data_v1";
@@ -293,19 +294,15 @@ const slugify = (value) =>
     .replace(/^-|-$/g, "");
 
 function loadData() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? { ...seedData, ...JSON.parse(stored) } : seedData;
-  } catch {
-    return seedData;
-  }
+  const stored = storageService.getItem(STORAGE_KEY, null);
+  return stored ? { ...seedData, ...stored } : seedData;
 }
 
 export function MasterDataProvider({ children }) {
   const [masterData, setMasterData] = useState(loadData);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(masterData));
+    storageService.setItem(STORAGE_KEY, masterData);
   }, [masterData]);
 
   const addLookup = (key, label) => {

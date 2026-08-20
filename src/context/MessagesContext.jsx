@@ -8,6 +8,7 @@ import {
 } from "react";
 
 import { conversations as defaultConversations } from "../data/conversations";
+import { storageService } from "../services/storage/storage.service";
 
 const MessagesContext = createContext(null);
 
@@ -131,30 +132,13 @@ function cloneConversations(source) {
 ===================================== */
 
 function getInitialConversations() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+  const stored = storageService.getItem(STORAGE_KEY, null);
 
-    if (!stored) {
-      return cloneConversations(defaultConversations);
-    }
-
-    const parsed = JSON.parse(stored);
-
-    if (!Array.isArray(parsed)) {
-      return cloneConversations(defaultConversations);
-    }
-
-    /*
-      Automatically migrate
-      old localStorage data.
-    */
-
-    return parsed.map(normalizeConversation);
-  } catch (error) {
-    console.error("Could not load conversations:", error);
-
+  if (!stored || !Array.isArray(stored)) {
     return cloneConversations(defaultConversations);
   }
+
+  return stored.map(normalizeConversation);
 }
 
 /* =====================================
@@ -193,15 +177,7 @@ export function MessagesProvider({ children }) {
   ===================================== */
 
   useEffect(() => {
-    try {
-      localStorage.setItem(
-        STORAGE_KEY,
-
-        JSON.stringify(conversations),
-      );
-    } catch (error) {
-      console.error("Could not save conversations:", error);
-    }
+    storageService.setItem(STORAGE_KEY, conversations);
   }, [conversations]);
 
   /* =====================================

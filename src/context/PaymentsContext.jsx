@@ -9,35 +9,22 @@ import {
 
 import { useLessons } from "./LessonsContext";
 import { usePlatformSettings } from "./PlatformSettingsContext";
+import { paymentsService } from "../services/payments/payments.service";
 
 const PaymentsContext = createContext(null);
-const PAYMENTS_KEY = "etutor_payments_v1";
-const PAYOUTS_KEY = "etutor_payouts_v1";
-
-const number = (value) => (Number.isFinite(Number(value)) ? Number(value) : 0);
-const money = (value) => Math.round((number(value) + Number.EPSILON) * 100) / 100;
-
-function loadList(key) {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(key) || "[]");
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
 
 export function PaymentsProvider({ children }) {
   const { lessons } = useLessons();
   const { settings } = usePlatformSettings();
-  const [payments, setPayments] = useState(() => loadList(PAYMENTS_KEY));
-  const [payouts, setPayouts] = useState(() => loadList(PAYOUTS_KEY));
+  const [payments, setPayments] = useState(() => paymentsService.loadPayments());
+  const [payouts, setPayouts] = useState(() => paymentsService.loadPayouts());
 
   useEffect(() => {
-    localStorage.setItem(PAYMENTS_KEY, JSON.stringify(payments));
+    paymentsService.savePayments(payments);
   }, [payments]);
 
   useEffect(() => {
-    localStorage.setItem(PAYOUTS_KEY, JSON.stringify(payouts));
+    paymentsService.savePayouts(payouts);
   }, [payouts]);
 
   /* Release earnings only after the tutor manually changes the lesson status to completed. */
@@ -81,10 +68,10 @@ export function PaymentsProvider({ children }) {
       const exists = payments.find((payment) => String(payment.bookingId) === String(bookingId));
       if (exists) return exists;
 
-      const gross = money(grossAmount);
-      const feeRate = number(settings.commissionRate);
-      const platformFeeAmount = money((gross * feeRate) / 100);
-      const tutorEarningAmount = money(gross - platformFeeAmount);
+      const gross = paymentsService.money(grossAmount);
+      const feeRate = paymentsService.number(settings.commissionRate);
+      const platformFeeAmount = paymentsService.money((gross * feeRate) / 100);
+      const tutorEarningAmount = paymentsService.money(gross - platformFeeAmount);
       const paid = paymentStatus === "paid";
       const payment = {
         id: `PAY-${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`,
@@ -151,10 +138,10 @@ export function PaymentsProvider({ children }) {
         if (["pending", "paid"].includes(payment.payoutStatus)) {
           return payment;
         }
-        const remaining = money(payment.grossAmount - number(payment.refundAmount));
-        const amount = Math.min(remaining, Math.max(0, money(requestedAmount ?? remaining)));
+        const remaining = paymentsService.money(payment.grossAmount - paymentsService.number(payment.refundAmount));
+        const amount = Math.min(remaining, Math.max(0, paymentsService.money(requestedAmount ?? remaining)));
         if (amount <= 0) return payment;
-        const totalRefund = money(number(payment.refundAmount) + amount);
+        const totalRefund = paymentsService.money(paymentsService.number(payment.refundAmount) + amount);
         const full = totalRefund >= payment.grossAmount;
         result = {
           ...payment,
@@ -232,21 +219,21 @@ export function PaymentsProvider({ children }) {
         return { success: false, message: `No available ${currency} earnings.` };
       }
 
-      const amount = money(
+      const amount = paymentsService.money(
         eligible.reduce((sum, payment) => {
           const netAfterRefund = Math.max(
             0,
-            number(payment.grossAmount) - number(payment.refundAmount),
+            paymentsService.number(payment.grossAmount) - paymentsService.number(payment.refundAmount),
           );
           const ratio =
-            number(payment.grossAmount) > 0
-              ? netAfterRefund / number(payment.grossAmount)
+            paymentsService.number(payment.grossAmount) > 0
+              ? netAfterRefund / paymentsService.number(payment.grossAmount)
               : 0;
-          return sum + number(payment.tutorEarningAmount) * ratio;
+          return sum + paymentsService.number(payment.tutorEarningAmount) * ratio;
         }, 0),
       );
 
-      if (amount < number(settings.minimumPayout)) {
+      if (amount < paymentsService.number(settings.minimumPayout)) {
         return {
           success: false,
           message: `Minimum payout is ${settings.minimumPayout} ${currency}.`,
@@ -331,42 +318,42 @@ export function PaymentsProvider({ children }) {
         ["paid", "partially_refunded", "refunded"].includes(payment.paymentStatus),
       );
 
-      const grossBookings = money(
-        paidLike.reduce((sum, payment) => sum + number(payment.grossAmount), 0),
+      const grossBookings = paymentsService.money(
+        paidLike.reduce((sum, payment) => sum + paymentsService.number(payment.grossAmount), 0),
       );
-      const refunded = money(
-        paidLike.reduce((sum, payment) => sum + number(payment.refundAmount), 0),
+      const refunded = paymentsService.money(
+        paidLike.reduce((sum, payment) => sum + paymentsService.number(payment.refundAmount), 0),
       );
-      const netCollected = money(grossBookings - refunded);
-      const platformRevenue = money(
+      const netCollected = paymentsService.money(grossBookings - refunded);
+      const platformRevenue = paymentsService.money(
         paidLike.reduce((sum, payment) => {
           const net = Math.max(
             0,
-            number(payment.grossAmount) - number(payment.refundAmount),
+            paymentsService.number(payment.grossAmount) - paymentsService.number(payment.refundAmount),
           );
-          const ratio = number(payment.grossAmount) > 0 ? net / number(payment.grossAmount) : 0;
-          return sum + number(payment.platformFeeAmount) * ratio;
+          const ratio = paymentsService.number(payment.grossAmount) > 0 ? net / paymentsService.number(payment.grossAmount) : 0;
+          return sum + paymentsService.number(payment.platformFeeAmount) * ratio;
         }, 0),
       );
-      const tutorEarnings = money(
+      const tutorEarnings = paymentsService.money(
         paidLike.reduce((sum, payment) => {
           const net = Math.max(
             0,
-            number(payment.grossAmount) - number(payment.refundAmount),
+            paymentsService.number(payment.grossAmount) - paymentsService.number(payment.refundAmount),
           );
-          const ratio = number(payment.grossAmount) > 0 ? net / number(payment.grossAmount) : 0;
-          return sum + number(payment.tutorEarningAmount) * ratio;
+          const ratio = paymentsService.number(payment.grossAmount) > 0 ? net / paymentsService.number(payment.grossAmount) : 0;
+          return sum + paymentsService.number(payment.tutorEarningAmount) * ratio;
         }, 0),
       );
-      const pendingPayouts = money(
+      const pendingPayouts = paymentsService.money(
         currencyPayouts
           .filter((payout) => payout.status === "pending")
-          .reduce((sum, payout) => sum + number(payout.amount), 0),
+          .reduce((sum, payout) => sum + paymentsService.number(payout.amount), 0),
       );
-      const paidPayouts = money(
+      const paidPayouts = paymentsService.money(
         currencyPayouts
           .filter((payout) => payout.status === "paid")
-          .reduce((sum, payout) => sum + number(payout.amount), 0),
+          .reduce((sum, payout) => sum + paymentsService.number(payout.amount), 0),
       );
 
       result[currency] = {
@@ -414,53 +401,53 @@ export function PaymentsProvider({ children }) {
             (payout.currency || settings.defaultCurrency || "USD") === currency),
       );
 
-      const gross = money(list.reduce((sum, payment) => sum + number(payment.grossAmount), 0));
-      const refunded = money(
-        list.reduce((sum, payment) => sum + number(payment.refundAmount), 0),
+      const gross = paymentsService.money(list.reduce((sum, payment) => sum + paymentsService.number(payment.grossAmount), 0));
+      const refunded = paymentsService.money(
+        list.reduce((sum, payment) => sum + paymentsService.number(payment.refundAmount), 0),
       );
-      const available = money(
+      const available = paymentsService.money(
         list
           .filter((payment) => payment.payoutStatus === "available")
           .reduce((sum, payment) => {
             const net = Math.max(
               0,
-              number(payment.grossAmount) - number(payment.refundAmount),
+              paymentsService.number(payment.grossAmount) - paymentsService.number(payment.refundAmount),
             );
             const ratio =
-              number(payment.grossAmount) > 0 ? net / number(payment.grossAmount) : 0;
-            return sum + number(payment.tutorEarningAmount) * ratio;
+              paymentsService.number(payment.grossAmount) > 0 ? net / paymentsService.number(payment.grossAmount) : 0;
+            return sum + paymentsService.number(payment.tutorEarningAmount) * ratio;
           }, 0),
       );
-      const pending = money(
+      const pending = paymentsService.money(
         relatedPayouts
           .filter((payout) => payout.status === "pending")
-          .reduce((sum, payout) => sum + number(payout.amount), 0),
+          .reduce((sum, payout) => sum + paymentsService.number(payout.amount), 0),
       );
-      const paidOut = money(
+      const paidOut = paymentsService.money(
         relatedPayouts
           .filter((payout) => payout.status === "paid")
-          .reduce((sum, payout) => sum + number(payout.amount), 0),
+          .reduce((sum, payout) => sum + paymentsService.number(payout.amount), 0),
       );
-      const tutorEarnings = money(
+      const tutorEarnings = paymentsService.money(
         list.reduce((sum, payment) => {
           const net = Math.max(
             0,
-            number(payment.grossAmount) - number(payment.refundAmount),
+            paymentsService.number(payment.grossAmount) - paymentsService.number(payment.refundAmount),
           );
           const ratio =
-            number(payment.grossAmount) > 0 ? net / number(payment.grossAmount) : 0;
-          return sum + number(payment.tutorEarningAmount) * ratio;
+            paymentsService.number(payment.grossAmount) > 0 ? net / paymentsService.number(payment.grossAmount) : 0;
+          return sum + paymentsService.number(payment.tutorEarningAmount) * ratio;
         }, 0),
       );
-      const platformCommission = money(
+      const platformCommission = paymentsService.money(
         list.reduce((sum, payment) => {
           const net = Math.max(
             0,
-            number(payment.grossAmount) - number(payment.refundAmount),
+            paymentsService.number(payment.grossAmount) - paymentsService.number(payment.refundAmount),
           );
           const ratio =
-            number(payment.grossAmount) > 0 ? net / number(payment.grossAmount) : 0;
-          return sum + number(payment.platformFeeAmount) * ratio;
+            paymentsService.number(payment.grossAmount) > 0 ? net / paymentsService.number(payment.grossAmount) : 0;
+          return sum + paymentsService.number(payment.platformFeeAmount) * ratio;
         }, 0),
       );
 
@@ -519,15 +506,15 @@ export function PaymentsProvider({ children }) {
           (payment) =>
             (payment.currency || settings.defaultCurrency || "USD") === currency,
         );
-        const gross = money(
+        const gross = paymentsService.money(
           currencyPayments.reduce(
-            (sum, payment) => sum + number(payment.grossAmount),
+            (sum, payment) => sum + paymentsService.number(payment.grossAmount),
             0,
           ),
         );
-        const refunded = money(
+        const refunded = paymentsService.money(
           currencyPayments.reduce(
-            (sum, payment) => sum + number(payment.refundAmount),
+            (sum, payment) => sum + paymentsService.number(payment.refundAmount),
             0,
           ),
         );
@@ -536,7 +523,7 @@ export function PaymentsProvider({ children }) {
           currency,
           gross,
           refunded,
-          netSpend: money(gross - refunded),
+          netSpend: paymentsService.money(gross - refunded),
           paymentCount: currencyPayments.length,
         };
         return result;

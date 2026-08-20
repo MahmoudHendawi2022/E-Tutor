@@ -6,167 +6,15 @@ import {
   useMemo,
   useState,
 } from "react";
-
-import { tutors as defaultTutors } from "../data/tutors";
+import { tutorsService } from "../services/tutors/tutors.service";
 
 const TutorsContext = createContext(null);
-const STORAGE_KEY = "etutor_tutors_v2";
-
-const allowedStatuses = [
-  "draft",
-  "pending_review",
-  "needs_changes",
-  "approved",
-  "rejected",
-  "suspended",
-];
-
-const arr = (value) => (Array.isArray(value) ? value.filter(Boolean) : []);
-
-function normalizeStatus(status) {
-  if (status === "active") return "approved";
-  return allowedStatuses.includes(status) ? status : "draft";
-}
-
-function normalizeTutor(tutor) {
-  const name = String(
-    tutor?.name || `${tutor?.firstName || ""} ${tutor?.lastName || ""}`,
-  ).trim();
-  const parts = name.split(/\s+/).filter(Boolean);
-  const firstName = String(tutor?.firstName || parts[0] || "").trim();
-  const lastName = String(tutor?.lastName || parts.slice(1).join(" ")).trim();
-  const primarySubject = String(tutor?.primarySubject || tutor?.subject || "").trim();
-  const status = normalizeStatus(tutor.status);
-  const experienceYears = Number(tutor.experienceYears || 0);
-  const specializations = arr(tutor.specializations);
-  const languages = arr(tutor.languages);
-  const university = tutor.university || "";
-  const degree = tutor.degree || "";
-
-  return {
-    ...tutor,
-    id: Number(tutor.id),
-    userId: tutor.userId ? Number(tutor.userId) : null,
-    firstName,
-    lastName,
-    name: `${firstName} ${lastName}`.trim() || name || "Tutor",
-    image: tutor.image || "",
-    titleId: tutor.titleId || "",
-    title: tutor.title || "",
-    shortTitle: tutor.shortTitle || tutor.title || "Tutor",
-    headline: tutor.headline || "",
-    bio: tutor.bio || tutor.about || "",
-    primarySubjectId: tutor.primarySubjectId || "",
-    primarySubject,
-    subject: primarySubject,
-    specializationIds: arr(tutor.specializationIds),
-    specializations,
-    subjects: arr(tutor.subjects).length ? arr(tutor.subjects) : primarySubject ? [primarySubject] : [],
-    teachingLevels: arr(tutor.teachingLevels),
-    price: Number(tutor.price || 0),
-    currency: tutor.currency || "USD",
-    experienceYears,
-    countryCode: tutor.countryCode || "",
-    country: tutor.country || "",
-    cityId: tutor.cityId || "",
-    city: tutor.city || "",
-    timezone: tutor.timezone || "",
-    universityId: tutor.universityId || "",
-    university,
-    degree,
-    fieldOfStudy: tutor.fieldOfStudy || "",
-    graduationYear: tutor.graduationYear || "",
-    languages,
-    certifications: arr(tutor.certifications),
-    identityDocument: tutor.identityDocument || null,
-    qualificationDocument: tutor.qualificationDocument || null,
-    trialLesson: Boolean(tutor.trialLesson),
-    trialPrice: Number(tutor.trialPrice || 0),
-    rating: Number(tutor.rating || 0),
-    reviews: Number(tutor.reviews || 0),
-    lessonsCompleted: Number(tutor.lessonsCompleted || 0),
-
-    /* Legacy/public UI compatibility while the app is migrated to TutorsContext. */
-    lessons: Number(tutor.lessons ?? tutor.lessonsCompleted ?? 0),
-    experience:
-      tutor.experience ||
-      (experienceYears > 0 ? `${experienceYears} years` : "Experience not specified"),
-    education:
-      tutor.education ||
-      [degree, university].filter(Boolean).join(" · ") ||
-      "Education not specified",
-    tags: arr(tutor.tags).length ? arr(tutor.tags) : specializations,
-    online: tutor.online ?? true,
-    verified: tutor.verified ?? status === "approved",
-
-    profileCompleted: Boolean(tutor.profileCompleted),
-    status,
-    submittedAt: tutor.submittedAt || null,
-    reviewedAt: tutor.reviewedAt || null,
-    approvedAt: tutor.approvedAt || null,
-    reviewNote: tutor.reviewNote || "",
-    rejectionReason: tutor.rejectionReason || "",
-    pendingChanges: tutor.pendingChanges || null,
-    profileUpdateStatus: tutor.profileUpdateStatus || null,
-    createdAt: tutor.createdAt || null,
-    updatedAt: tutor.updatedAt || null,
-  };
-}
-
-function createSeedTutors() {
-  return defaultTutors.map((tutor, index) =>
-    normalizeTutor({
-      ...tutor,
-      userId: tutor.userId || (index === 0 ? 101 : null),
-      profileCompleted: true,
-      status: "approved",
-      approvedAt: tutor.approvedAt || "2026-07-01T09:00:00.000Z",
-    }),
-  );
-}
-
-function loadTutors() {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    const parsed = stored ? JSON.parse(stored) : null;
-    return Array.isArray(parsed) ? parsed.map(normalizeTutor) : createSeedTutors();
-  } catch {
-    return createSeedTutors();
-  }
-}
-
-function nextTutorId(tutors) {
-  return tutors.reduce((max, tutor) => Math.max(max, Number(tutor.id || 0)), 0) + 1;
-}
-
-function calculateProfileCompletion(tutor) {
-  const requirements = [
-    tutor.firstName,
-    tutor.lastName,
-    tutor.image,
-    tutor.title,
-    tutor.bio,
-    tutor.primarySubject,
-    tutor.specializations.length,
-    Number(tutor.price) > 0,
-    tutor.country,
-    tutor.city,
-    tutor.timezone,
-    tutor.languages.length,
-    tutor.university,
-    tutor.degree,
-    tutor.identityDocument,
-    tutor.qualificationDocument,
-  ];
-  const percentage = Math.round((requirements.filter(Boolean).length / requirements.length) * 100);
-  return { percentage, complete: percentage === 100 };
-}
 
 export function TutorsProvider({ children }) {
-  const [tutors, setTutors] = useState(loadTutors);
+  const [tutors, setTutors] = useState(() => tutorsService.loadTutors());
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(tutors));
+    tutorsService.saveTutors(tutors);
   }, [tutors]);
 
   const getTutorById = useCallback(
@@ -183,7 +31,7 @@ export function TutorsProvider({ children }) {
     setTutors((current) =>
       current.map((tutor) =>
         Number(tutor.id) === Number(tutorId)
-          ? normalizeTutor({
+          ? tutorsService.normalizeTutor({
               ...tutor,
               ...updates,
               id: tutor.id,
@@ -203,15 +51,15 @@ export function TutorsProvider({ children }) {
       );
       const now = new Date().toISOString();
       if (existing) {
-        const updated = normalizeTutor({ ...existing, ...profile, updatedAt: now });
+        const updated = tutorsService.normalizeTutor({ ...existing, ...profile, updatedAt: now });
         setTutors((current) =>
           current.map((item) => (Number(item.id) === Number(existing.id) ? updated : item)),
         );
         return updated;
       }
-      const created = normalizeTutor({
+      const created = tutorsService.normalizeTutor({
         ...profile,
-        id: nextTutorId(tutors),
+        id: tutorsService.nextTutorId(tutors),
         userId: Number(userId),
         status: "draft",
         profileCompleted: false,
@@ -234,10 +82,10 @@ export function TutorsProvider({ children }) {
           Number(tutor.id) === Number(tutorId) || Number(tutor.userId) === Number(userId),
       );
       const now = new Date().toISOString();
-      const candidate = normalizeTutor({
+      const candidate = tutorsService.normalizeTutor({
         ...(existing || {}),
         ...profile,
-        id: existing?.id || nextTutorId(tutors),
+        id: existing?.id || tutorsService.nextTutorId(tutors),
         userId: Number(userId),
         status: "pending_review",
         profileCompleted: true,
@@ -247,7 +95,7 @@ export function TutorsProvider({ children }) {
         createdAt: existing?.createdAt || now,
         updatedAt: now,
       });
-      const completion = calculateProfileCompletion(candidate);
+      const completion = tutorsService.calculateProfileCompletion(candidate);
       if (!completion.complete) {
         return {
           success: false,
@@ -398,7 +246,7 @@ export function TutorsProvider({ children }) {
       rejectTutorChanges,
       getProfileCompletion: (id) => {
         const tutor = getTutorById(id);
-        return tutor ? calculateProfileCompletion(tutor) : { complete: false, percentage: 0 };
+        return tutor ? tutorsService.calculateProfileCompletion(tutor) : { complete: false, percentage: 0 };
       },
     }),
     [

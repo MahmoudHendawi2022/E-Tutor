@@ -7,50 +7,11 @@ import {
   useState,
 } from "react";
 
-import { savedTutorIds as defaultSavedTutorIds } from "../data/student";
 import { useAuth } from "./AuthContext";
 import { useTutors } from "./TutorsContext";
+import { studentsService } from "../services/students/students.service";
 
 const SavedTutorsContext = createContext(null);
-
-const LEGACY_STORAGE_KEY = "etutor_saved_tutors";
-
-function storageKey(studentId) {
-  return studentId ? `etutor_saved_tutors_${Number(studentId)}` : null;
-}
-
-function normalizeIds(value) {
-  if (!Array.isArray(value)) return [];
-  return [...new Set(value.map(Number).filter((id) => Number.isFinite(id) && id > 0))];
-}
-
-function loadSavedTutorIds(studentId) {
-  if (!studentId) return [];
-
-  try {
-    const key = storageKey(studentId);
-    const stored = localStorage.getItem(key);
-
-    if (stored) {
-      return normalizeIds(JSON.parse(stored));
-    }
-
-    /*
-      Backwards compatibility for the original single-student demo.
-      Student #1 inherits the previous global saved list once.
-    */
-    if (Number(studentId) === 1) {
-      const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
-      if (legacy) return normalizeIds(JSON.parse(legacy));
-      return normalizeIds(defaultSavedTutorIds);
-    }
-
-    return [];
-  } catch (error) {
-    console.error("Could not load saved tutors:", error);
-    return Number(studentId) === 1 ? normalizeIds(defaultSavedTutorIds) : [];
-  }
-}
 
 export function SavedTutorsProvider({ children }) {
   const { user } = useAuth();
@@ -59,12 +20,12 @@ export function SavedTutorsProvider({ children }) {
   const studentId = user?.role === "student" ? Number(user.id) : null;
 
   const [savedTutorIds, setSavedTutorIds] = useState(() =>
-    loadSavedTutorIds(studentId),
+    studentsService.loadSavedTutorIds(studentId),
   );
 
   /* Switch saved state when a different student signs in. */
   useEffect(() => {
-    setSavedTutorIds(loadSavedTutorIds(studentId));
+    setSavedTutorIds(studentsService.loadSavedTutorIds(studentId));
   }, [studentId]);
 
   /* Keep only currently public/approved tutors in the saved list. */
@@ -80,14 +41,8 @@ export function SavedTutorsProvider({ children }) {
   }, [studentId, getPublicTutorById]);
 
   useEffect(() => {
-    const key = storageKey(studentId);
-    if (!key) return;
-
-    try {
-      localStorage.setItem(key, JSON.stringify(savedTutorIds));
-    } catch (error) {
-      console.error("Could not save tutors:", error);
-    }
+    if (!studentId) return;
+    studentsService.saveSavedTutorIds(studentId, savedTutorIds);
   }, [studentId, savedTutorIds]);
 
   const isTutorSaved = useCallback(
