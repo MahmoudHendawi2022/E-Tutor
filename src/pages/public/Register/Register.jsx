@@ -4,6 +4,8 @@ import { Eye, EyeOff, GraduationCap, UserRound } from "lucide-react";
 import { motion } from "motion/react";
 
 import { useAuth } from "../../../context/AuthContext";
+import { Button, Input } from "../../../components/ui";
+import { FormField, FormLabel, FormError } from "../../../components/forms";
 import "./register.css";
 
 const containerVariants = {
@@ -18,6 +20,7 @@ const itemVariants = {
   hidden: { opacity: 0, y: 9 },
   visible: { opacity: 1, y: 0, transition: { type: "tween", duration: 0.32, ease: "easeOut" } },
 };
+const MotionButton = motion(Button);
 
 function Register() {
   const navigate = useNavigate();
@@ -76,20 +79,110 @@ function Register() {
         </motion.div>
 
         <form onSubmit={submit}>
-          <motion.div className="register-field" variants={itemVariants}><label htmlFor="register-name">Full name</label><input id="register-name" name="fullName" value={form.fullName} onChange={change} type="text" placeholder="Enter your first and last name" autoComplete="name" disabled={loading} required/></motion.div>
-          <motion.div className="register-field" variants={itemVariants}><label htmlFor="register-email">Email address</label><input id="register-email" name="email" value={form.email} onChange={change} type="email" placeholder="you@example.com" autoComplete="email" disabled={loading} required/></motion.div>
           <motion.div className="register-field" variants={itemVariants}>
-            <label htmlFor="register-password">Password</label>
-            <div className="register-password-field"><input id="register-password" name="password" value={form.password} onChange={change} type={showPassword ? "text" : "password"} placeholder="Minimum 8 characters" autoComplete="new-password" minLength={8} disabled={loading} required/><button type="button" className="register-password-toggle" onClick={() => setShowPassword((current) => !current)} aria-label="Toggle password">{showPassword ? <EyeOff size={18}/> : <Eye size={18}/>}</button></div>
+            <FormLabel htmlFor="register-name">Full name</FormLabel>
+            <Input
+              id="register-name"
+              name="fullName"
+              value={form.fullName}
+              onChange={change}
+              type="text"
+              placeholder="Enter your first and last name"
+              autoComplete="name"
+              disabled={loading}
+              required
+            />
+          </motion.div>
+          
+          <motion.div className="register-field" variants={itemVariants}>
+            <FormLabel htmlFor="register-email">Email address</FormLabel>
+            <Input
+              id="register-email"
+              name="email"
+              value={form.email}
+              onChange={change}
+              type="email"
+              placeholder="you@example.com"
+              autoComplete="email"
+              disabled={loading}
+              required
+            />
+          </motion.div>
+          
+          <motion.div className="register-field" variants={itemVariants}>
+            <FormLabel htmlFor="register-password">Password</FormLabel>
+            <Input
+              id="register-password"
+              name="password"
+              value={form.password}
+              onChange={change}
+              type={showPassword ? "text" : "password"}
+              placeholder="Minimum 8 characters"
+              autoComplete="new-password"
+              minLength={8}
+              disabled={loading}
+              required
+              suffix={
+                <button
+                  type="button"
+                  className="register-password-toggle"
+                  onClick={() => setShowPassword((current) => !current)}
+                  aria-label="Toggle password"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              }
+            />
             <span className="register-field-hint">Must be at least 8 characters.</span>
           </motion.div>
+          
           <motion.div className="register-field" variants={itemVariants}>
-            <label htmlFor="register-confirm-password">Confirm password</label>
-            <div className="register-password-field"><input id="register-confirm-password" name="confirmPassword" value={form.confirmPassword} onChange={change} type={showConfirmPassword ? "text" : "password"} placeholder="Re-enter your password" autoComplete="new-password" minLength={8} disabled={loading} required/><button type="button" className="register-password-toggle" onClick={() => setShowConfirmPassword((current) => !current)} aria-label="Toggle confirmation password">{showConfirmPassword ? <EyeOff size={18}/> : <Eye size={18}/>}</button></div>
+            <FormLabel htmlFor="register-confirm-password">Confirm password</FormLabel>
+            <Input
+              id="register-confirm-password"
+              name="confirmPassword"
+              value={form.confirmPassword}
+              onChange={change}
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Re-enter your password"
+              autoComplete="new-password"
+              minLength={8}
+              disabled={loading}
+              required
+              suffix={
+                <button
+                  type="button"
+                  className="register-password-toggle"
+                  onClick={() => setShowConfirmPassword((current) => !current)}
+                  aria-label="Toggle confirmation password"
+                >
+                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              }
+            />
           </motion.div>
-          {error && <motion.div className="register-error" initial={{opacity:0,y:-4}} animate={{opacity:1,y:0}}>{error}</motion.div>}
-          <motion.label className="register-terms" variants={itemVariants}><input type="checkbox" disabled={loading} required/><span>I agree to the E-Tutor Terms of Service and Privacy Policy.</span></motion.label>
-          <motion.button type="submit" className="register-submit" variants={itemVariants} disabled={loading} whileHover={loading ? {} : {y:-1}} whileTap={loading ? {} : {scale:.985}}>{loading ? "Creating account..." : role === "tutor" ? "Create tutor account" : "Create student account"}</motion.button>
+          
+          {error && (
+            <motion.div className="register-error" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>
+              <FormError>{error}</FormError>
+            </motion.div>
+          )}
+          
+          <motion.label className="register-terms" variants={itemVariants}>
+            <input type="checkbox" disabled={loading} required />
+            <span>I agree to the E-Tutor Terms of Service and Privacy Policy.</span>
+          </motion.label>
+          
+          <MotionButton
+            type="submit"
+            className="register-submit"
+            variants={itemVariants}
+            disabled={loading}
+            whileHover={loading ? {} : { y: -1 }}
+            whileTap={loading ? {} : { scale: 0.985 }}
+          >
+            {loading ? "Creating account..." : role === "tutor" ? "Create tutor account" : "Create student account"}
+          </MotionButton>
         </form>
         <motion.p className="register-switch" variants={itemVariants}>Already have an account?<Link to="/signin">Sign in</Link></motion.p>
       </motion.section>

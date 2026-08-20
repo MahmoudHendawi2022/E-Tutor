@@ -4,18 +4,18 @@
 
 .etutor-tabs-list {
   display: flex;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--color-border-separator);
   gap: 24px;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-md);
 }
 
 .etutor-tab-trigger {
   background: none;
   border: none;
   padding: 12px 4px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #64748b;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
   cursor: pointer;
   position: relative;
   transition: color 0.2s ease;
@@ -24,12 +24,12 @@
 }
 
 .etutor-tab-trigger:hover {
-  color: #0f172a;
+  color: var(--color-text-primary);
 }
 
 .etutor-tab-active {
-  color: #2563eb;
-  font-weight: 600;
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
 }
 
 .etutor-tab-active::after {
@@ -39,7 +39,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: #2563eb;
+  background-color: var(--color-primary);
 }
 
 .etutor-tabs-content {

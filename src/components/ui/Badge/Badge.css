@@ -3,33 +3,33 @@
   align-items: center;
   justify-content: center;
   padding: 4px 8px;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: 9999px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
   line-height: 1;
 }
 
 .etutor-badge-success {
-  background-color: #f0fdf4;
-  color: #15803d;
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
 }
 
 .etutor-badge-warning {
-  background-color: #fffbeb;
-  color: #b45309;
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
 }
 
 .etutor-badge-danger {
-  background-color: #fef2f2;
-  color: #b91c1c;
+  background-color: var(--color-danger-bg);
+  color: var(--color-danger-text);
 }
 
 .etutor-badge-info {
-  background-color: #eff6ff;
-  color: #1d4ed8;
+  background-color: var(--color-info-bg);
+  color: var(--color-info-text);
 }
 
 .etutor-badge-neutral {
-  background-color: #f1f5f9;
-  color: #475569;
+  background-color: var(--color-bg-neutral);
+  color: var(--color-text-dark-slate);
 }

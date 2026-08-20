@@ -4,9 +4,9 @@
   gap: 10px;
   padding: 12px 16px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  font-size: 14px;
-  font-weight: 500;
+  box-shadow: var(--shadow-md);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
   max-width: 360px;
   width: max-content;
   pointer-events: auto;
@@ -14,21 +14,21 @@
 }
 
 .etutor-toast-success {
-  background-color: #f0fdf4;
+  background-color: var(--color-success-bg);
   border: 1px solid #dcfce7;
-  color: #15803d;
+  color: var(--color-success-text);
 }
 
 .etutor-toast-error {
-  background-color: #fef2f2;
+  background-color: var(--color-danger-bg);
   border: 1px solid #fee2e2;
-  color: #b91c1c;
+  color: var(--color-danger-text);
 }
 
 .etutor-toast-info {
-  background-color: #eff6ff;
+  background-color: var(--color-info-bg);
   border: 1px solid #dbeafe;
-  color: #1d4ed8;
+  color: var(--color-info-text);
 }
 
 .etutor-toast-icon {

@@ -27,7 +27,7 @@
 /* Colors */
 .etutor-spinner-primary {
   border-color: rgba(37, 99, 235, 0.1);
-  border-top-color: #2563eb;
+  border-top-color: var(--color-primary);
 }
 
 .etutor-spinner-white {
@@ -37,7 +37,7 @@
 
 .etutor-spinner-gray {
   border-color: rgba(100, 116, 139, 0.1);
-  border-top-color: #64748b;
+  border-top-color: var(--color-text-secondary);
 }
 
 @keyframes spinner-spin {

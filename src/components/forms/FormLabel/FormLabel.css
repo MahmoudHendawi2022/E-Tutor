@@ -1,10 +1,10 @@
 .etutor-form-label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #334155;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-dark-slate);
   user-select: none;
 }
 
 .etutor-form-label-required {
-  color: #ef4444;
+  color: var(--color-danger-primary);
 }

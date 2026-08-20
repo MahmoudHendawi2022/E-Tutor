@@ -1,7 +1,7 @@
 import React from "react";
 import "./Input.css";
 
-export default function Input({
+const Input = React.forwardRef(({
   type = "text",
   placeholder = "",
   value,
@@ -9,9 +9,10 @@ export default function Input({
   disabled = false,
   error = false,
   icon,
+  suffix,
   className = "",
   ...props
-}) {
+}, ref) => {
   return (
     <div
       className={`etutor-input-wrapper ${error ? "etutor-input-error" : ""} ${
@@ -21,12 +22,17 @@ export default function Input({
       {icon && <span className="etutor-input-icon">{icon}</span>}
       <input
         type={type}
+        ref={ref}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         disabled={disabled}
         {...props}
       />
+      {suffix && <span className="etutor-input-suffix">{suffix}</span>}
     </div>
   );
-}
+});
+
+Input.displayName = "Input";
+export default Input;

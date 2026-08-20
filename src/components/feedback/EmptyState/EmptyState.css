@@ -4,16 +4,16 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 48px 24px;
-  background-color: #ffffff;
-  border: 1px dashed #e2e8f0;
-  border-radius: 12px;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  background-color: var(--color-bg-surface);
+  border: 1px dashed var(--color-border-separator);
+  border-radius: var(--radius-lg);
   max-width: 480px;
   margin: 0 auto;
 }
 
 .etutor-empty-state-icon {
-  color: #94a3b8;
+  color: var(--color-text-muted);
   margin-bottom: 16px;
   display: flex;
   align-items: center;
@@ -21,17 +21,17 @@
 }
 
 .etutor-empty-state-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #0f172a;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
   margin-bottom: 8px;
 }
 
 .etutor-empty-state-desc {
-  font-size: 14px;
-  color: #64748b;
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
   margin-bottom: 20px;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .etutor-empty-state-action {

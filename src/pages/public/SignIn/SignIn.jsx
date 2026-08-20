@@ -17,6 +17,9 @@ import { motion } from "motion/react";
 import { useAuth } from "../../../context/AuthContext";
 import { useTutors } from "../../../context/TutorsContext";
 
+import { Button, Input } from "../../../components/ui";
+import { FormField, FormLabel, FormError } from "../../../components/forms";
+
 import "./signIn.css";
 
 function SignIn() {
@@ -266,64 +269,61 @@ function SignIn() {
             {/* FORM */}
 
             <form onSubmit={handleSubmit} className="auth-form">
-              <div className="auth-field">
-                <label htmlFor="email">Email address</label>
+              <FormField className="auth-field">
+                <FormLabel htmlFor="email">Email address</FormLabel>
 
-                <div className="auth-input">
-                  <Mail size={16} />
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  onChange={(event) => setEmail(event.target.value)}
+                  icon={<Mail size={16} />}
+                  className="auth-input"
+                />
+              </FormField>
 
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    placeholder="you@example.com"
-                    autoComplete="email"
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="auth-field">
+              <FormField className="auth-field">
                 <div className="auth-label-row">
-                  <label htmlFor="password">Password</label>
+                  <FormLabel htmlFor="password">Password</FormLabel>
 
                   <button type="button" className="auth-forgot">
                     Forgot password?
                   </button>
                 </div>
 
-                <div className="auth-input">
-                  <LockKeyhole size={16} />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                  onChange={(event) => setPassword(event.target.value)}
+                  icon={<LockKeyhole size={16} />}
+                  className="auth-input"
+                  suffix={
+                    <button
+                      type="button"
+                      className="auth-password-toggle"
+                      onClick={() => setShowPassword((current) => !current)}
+                      aria-label="Show password"
+                    >
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  }
+                />
+              </FormField>
 
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    value={password}
-                    placeholder="Enter your password"
-                    autoComplete="current-password"
-                    onChange={(event) => setPassword(event.target.value)}
-                  />
+              {error && <FormError className="auth-error">{error}</FormError>}
 
-                  <button
-                    type="button"
-                    className="auth-password-toggle"
-                    onClick={() => setShowPassword((current) => !current)}
-                    aria-label="Show password"
-                  >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                </div>
-              </div>
-
-              {error && <div className="auth-error">{error}</div>}
-
-              <button type="submit" className="auth-submit" disabled={loading}>
+              <Button type="submit" className="auth-submit" disabled={loading}>
                 {loading
                   ? "Signing in..."
                   : role === "tutor"
                     ? "Sign in as tutor"
                     : "Sign in as student"}
-              </button>
+              </Button>
             </form>
 
             {/* DEMO */}

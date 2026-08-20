@@ -4,16 +4,16 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 32px 24px;
-  background-color: #fef2f2;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  background-color: var(--color-danger-bg);
   border: 1px solid #fee2e2;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   max-width: 480px;
   margin: 0 auto;
 }
 
 .etutor-error-state-icon {
-  color: #ef4444;
+  color: var(--color-danger-primary);
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -21,29 +21,29 @@
 }
 
 .etutor-error-state-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
   color: #991b1b;
   margin-bottom: 6px;
 }
 
 .etutor-error-state-message {
-  font-size: 14px;
-  color: #b91c1c;
+  font-size: var(--font-size-md);
+  color: var(--color-danger-text);
   margin-bottom: 16px;
-  line-height: 1.5;
+  line-height: var(--line-height-normal);
 }
 
 .etutor-error-state-retry-btn {
-  background-color: #ef4444;
+  background-color: var(--color-danger-primary);
   color: #ffffff;
   border: none;
   outline: none;
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   padding: 8px 16px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: background-color 0.18s ease;
 }
