@@ -1,0 +1,40 @@
+.etutor-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 48px 24px;
+  background-color: #ffffff;
+  border: 1px dashed #e2e8f0;
+  border-radius: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.etutor-empty-state-icon {
+  color: #94a3b8;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.etutor-empty-state-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.etutor-empty-state-desc {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.etutor-empty-state-action {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,35 @@
+.etutor-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 9999px;
+  line-height: 1;
+}
+
+.etutor-badge-success {
+  background-color: #f0fdf4;
+  color: #15803d;
+}
+
+.etutor-badge-warning {
+  background-color: #fffbeb;
+  color: #b45309;
+}
+
+.etutor-badge-danger {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+.etutor-badge-info {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.etutor-badge-neutral {
+  background-color: #f1f5f9;
+  color: #475569;
+}

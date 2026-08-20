@@ -1,0 +1,53 @@
+.etutor-error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px 24px;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.etutor-error-state-icon {
+  color: #ef4444;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.etutor-error-state-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #991b1b;
+  margin-bottom: 6px;
+}
+
+.etutor-error-state-message {
+  font-size: 14px;
+  color: #b91c1c;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.etutor-error-state-retry-btn {
+  background-color: #ef4444;
+  color: #ffffff;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.etutor-error-state-retry-btn:hover {
+  background-color: #dc2626;
+}

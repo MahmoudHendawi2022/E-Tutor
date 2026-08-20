@@ -1,0 +1,10 @@
+.etutor-form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  user-select: none;
+}
+
+.etutor-form-label-required {
+  color: #ef4444;
+}

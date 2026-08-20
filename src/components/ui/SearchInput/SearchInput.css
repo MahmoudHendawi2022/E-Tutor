@@ -1,0 +1,38 @@
+.etutor-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff;
+  border: 1px solid #dfe5ec;
+  border-radius: 6px;
+  padding: 0 14px;
+  min-height: 42px;
+  width: 100%;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.etutor-search-wrapper:focus-within {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.07);
+}
+
+.etutor-search-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+}
+
+.etutor-search-wrapper input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.etutor-search-wrapper input::placeholder {
+  color: #94a3b8;
+}
