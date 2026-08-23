@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router";
+import { Route } from "react-router-dom";
 import ProtectedRoute from "../../components/Auth/ProtectedRoute";
 import TutorAccessRoute from "../../components/Auth/TutorAccessRoute";
 import TutorLayout from "../../layouts/TutorLayout/TutorLayout";

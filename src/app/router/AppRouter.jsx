@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { publicRoutes } from "./publicRoutes";
 import { studentRoutes } from "./studentRoutes";
 import { tutorRoutes } from "./tutorRoutes";
@@ -12,7 +12,7 @@ export default function AppRouter() {
       {studentRoutes}
       {tutorRoutes}
       {adminRoutes}
-      
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
