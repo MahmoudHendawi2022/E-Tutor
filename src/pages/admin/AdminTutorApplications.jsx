@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react";
-import { CheckCircle2, Search, ShieldAlert, XCircle } from "lucide-react";
+import { CheckCircle2, ShieldAlert, XCircle } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
 import { useTutors } from "../../context/TutorsContext";
+import { AdminPageHeader, AdminToolbar, AdminStatusBadge } from "../../components/admin";
 import { formatDateTime } from "./adminUtils";
 import "./adminPages.css";
 
@@ -55,23 +56,34 @@ function AdminTutorApplications() {
 
   return (
     <main className="admin-page">
-      <div className="admin-page-head"><div><span>TUTOR QUALITY CONTROL</span><h1>Tutor review center</h1><p>Every new tutor and sensitive profile update stays private until admin approval.</p></div></div>
+      <AdminPageHeader
+        eyebrow="TUTOR QUALITY CONTROL"
+        title="Tutor review center"
+        description="Every new tutor and sensitive profile update stays private until admin approval."
+      />
 
       <div className="admin-master-tabs">
         <button className={mode === "applications" ? "active" : ""} onClick={() => { setMode("applications"); setSelectedId(null); }}>Applications ({tutorApplications.length})</button>
         <button className={mode === "changes" ? "active" : ""} onClick={() => { setMode("changes"); setSelectedId(null); }}>Profile changes ({pendingProfileChanges.length})</button>
       </div>
 
-      <div className="admin-toolbar">
-        <div className="admin-search"><Search size={14} /><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, subject, country or university..." /></div>
-      </div>
+      <AdminToolbar
+        search={search}
+        onSearch={(e) => setSearch(e.target.value)}
+        placeholder="Search name, subject, country or university..."
+      />
 
       {!details ? <div className="admin-empty">No tutor applications in this queue.</div> : (
         <div className="admin-detail">
           <aside className="admin-profile-card">
             <div className="admin-profile-image">{details.image && <img src={details.image} alt={details.name} />}</div>
             <h2>{details.name}</h2><p>{details.title}</p><p>{details.headline}</p>
-            <div style={{ marginTop: 10 }}><span className={`admin-badge ${selected.status}`}>{mode === "changes" ? selected.profileUpdateStatus : selected.status}</span></div>
+            <div style={{ marginTop: 10 }}>
+              <AdminStatusBadge
+                status={selected.status}
+                label={mode === "changes" ? selected.profileUpdateStatus : selected.status}
+              />
+            </div>
             <div className="admin-list" style={{ marginTop: 12 }}>
               {filtered.map((item) => (
                 <button key={item.id} className="admin-button" style={{ justifyContent: "flex-start", marginBottom: 5 }} onClick={() => setSelectedId(item.id)}>{item.name}</button>

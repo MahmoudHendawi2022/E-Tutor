@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
 import { useTutors } from "../../context/TutorsContext";
 import { useLessons } from "../../context/LessonsContext";
 import { usePayments } from "../../context/PaymentsContext";
+import { AdminPageHeader, AdminToolbar, AdminStatusBadge } from "../../components/admin";
 import { formatLessonDate, money } from "./adminUtils";
 import "./adminPages.css";
 
@@ -30,11 +30,23 @@ function AdminLessons() {
 
   return (
     <main className="admin-page">
-      <div className="admin-page-head"><div><span>OPERATIONS</span><h1>Lessons & bookings</h1><p>Every booking, student, tutor, schedule, duration, status and payment in one view.</p></div></div>
-      <div className="admin-toolbar">
-        <div className="admin-search"><Search size={14}/><input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search booking, student, tutor or subject..." /></div>
-        <select value={status} onChange={(e) => setStatus(e.target.value)}><option value="all">All lesson statuses</option><option value="upcoming">Upcoming</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select>
-      </div>
+      <AdminPageHeader
+        eyebrow="OPERATIONS"
+        title="Lessons & bookings"
+        description="Every booking, student, tutor, schedule, duration, status and payment in one view."
+      />
+      <AdminToolbar
+        search={search}
+        onSearch={(e) => setSearch(e.target.value)}
+        placeholder="Search booking, student, tutor or subject..."
+      >
+        <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <option value="all">All lesson statuses</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </AdminToolbar>
       <div className="admin-table-wrap"><table className="admin-table"><thead><tr><th>Booking</th><th>Student</th><th>Tutor</th><th>Subject</th><th>Schedule</th><th>Duration</th><th>Lesson</th><th>Price</th><th>Payment</th><th>Funds</th></tr></thead><tbody>
         {rows.map((lesson) => {
           const tutor = getTutorById(lesson.tutorId);
@@ -45,10 +57,10 @@ function AdminLessons() {
             <td>{student?.fullName || `Student #${lesson.studentId || "—"}`}</td>
             <td>{tutor?.name || `Tutor #${lesson.tutorId}`}</td>
             <td>{lesson.subject}</td><td>{formatLessonDate(lesson)}</td><td>{lesson.duration} min</td>
-            <td><span className={`admin-badge ${lesson.status}`}>{lesson.status}</span></td>
+            <td><AdminStatusBadge status={lesson.status} /></td>
             <td>{money(lesson.price || payment?.grossAmount || 0, payment?.currency || tutor?.currency || "USD")}</td>
-            <td>{payment ? <span className={`admin-badge ${payment.paymentStatus}`}>{payment.paymentStatus}</span> : "No payment"}</td>
-            <td>{payment ? <span className={`admin-badge ${payment.fundStatus}`}>{payment.fundStatus}</span> : "—"}</td>
+            <td>{payment ? <AdminStatusBadge status={payment.paymentStatus} /> : "No payment"}</td>
+            <td>{payment ? <AdminStatusBadge status={payment.fundStatus} /> : "—"}</td>
           </tr>;
         })}
       </tbody></table></div>

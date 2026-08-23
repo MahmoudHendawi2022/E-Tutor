@@ -17,6 +17,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { useLessons } from "../../../context/LessonsContext";
 
 import { useTutors } from "../../../context/TutorsContext";
+import { TutorPageHeader, TutorStatCard, TutorEmptyState } from "../../../components/tutor";
 
 import "./tutorDashboard.css";
 
@@ -144,68 +145,46 @@ function TutorDashboard() {
     >
       {/* WELCOME */}
 
-      <motion.div className="tutor-dashboard-welcome" variants={itemVariants}>
-        <div>
-          <span>TUTOR DASHBOARD</span>
-
-          <h1>Welcome back, {firstName}</h1>
-
-          <p>Here's an overview of your teaching activity.</p>
-        </div>
-
+      <TutorPageHeader
+        eyebrow="TUTOR DASHBOARD"
+        title={`Welcome back, ${firstName}`}
+        description="Here's an overview of your teaching activity."
+        className="tutor-dashboard-welcome"
+        variants={itemVariants}
+      >
         <Link to="/tutor/lessons">Manage lessons</Link>
-      </motion.div>
+      </TutorPageHeader>
 
       {/* STATS */}
 
       <motion.div className="tutor-dashboard-stats" variants={itemVariants}>
-        <div className="tutor-dashboard-stat">
-          <div>
-            <CalendarDays size={18} />
-          </div>
+        <TutorStatCard
+          icon={CalendarDays}
+          label="Upcoming lessons"
+          value={upcoming.length}
+          className="tutor-dashboard-stat"
+        />
 
-          <section>
-            <span>Upcoming lessons</span>
+        <TutorStatCard
+          icon={CheckCircle2}
+          label="Completed"
+          value={completed.length}
+          className="tutor-dashboard-stat"
+        />
 
-            <strong>{upcoming.length}</strong>
-          </section>
-        </div>
+        <TutorStatCard
+          icon={GraduationCap}
+          label="Total lessons"
+          value={tutorLessons.length}
+          className="tutor-dashboard-stat"
+        />
 
-        <div className="tutor-dashboard-stat">
-          <div>
-            <CheckCircle2 size={18} />
-          </div>
-
-          <section>
-            <span>Completed</span>
-
-            <strong>{completed.length}</strong>
-          </section>
-        </div>
-
-        <div className="tutor-dashboard-stat">
-          <div>
-            <GraduationCap size={18} />
-          </div>
-
-          <section>
-            <span>Total lessons</span>
-
-            <strong>{tutorLessons.length}</strong>
-          </section>
-        </div>
-
-        <div className="tutor-dashboard-stat">
-          <div>
-            <Clock3 size={18} />
-          </div>
-
-          <section>
-            <span>Cancelled</span>
-
-            <strong>{cancelled.length}</strong>
-          </section>
-        </div>
+        <TutorStatCard
+          icon={Clock3}
+          label="Cancelled"
+          value={cancelled.length}
+          className="tutor-dashboard-stat"
+        />
       </motion.div>
 
       {/* UPCOMING */}
@@ -248,13 +227,13 @@ function TutorDashboard() {
               </div>
             ))
           ) : (
-            <div className="tutor-dashboard-empty">
-              <CalendarDays size={23} />
-
-              <strong>No upcoming lessons</strong>
-
-              <span>New bookings will appear here.</span>
-            </div>
+            <TutorEmptyState
+              icon={CalendarDays}
+              title="No upcoming lessons"
+              description="New bookings will appear here."
+              className="tutor-dashboard-empty"
+              iconSize={23}
+            />
           )}
         </div>
       </motion.section>

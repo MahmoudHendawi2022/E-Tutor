@@ -17,6 +17,7 @@ import { motion } from "motion/react";
 import { useAuth } from "../../../context/AuthContext";
 
 import { useLessons } from "../../../context/LessonsContext";
+import { TutorPageHeader, TutorStatCard } from "../../../components/tutor";
 
 import "./tutorStudents.css";
 
@@ -287,68 +288,54 @@ function TutorStudents() {
           HEADER
       ===================================== */}
 
-      <motion.div className="tutor-students-heading" variants={itemVariants}>
-        <div>
-          <span>STUDENTS</span>
-
-          <h1>My students</h1>
-
-          <p>View students who have booked lessons with you.</p>
-        </div>
-      </motion.div>
+      <TutorPageHeader
+        eyebrow="STUDENTS"
+        title="My students"
+        description="View students who have booked lessons with you."
+        className="tutor-students-heading"
+        variants={itemVariants}
+      />
 
       {/* =====================================
           STATS
       ===================================== */}
 
       <motion.div className="tutor-student-stats" variants={itemVariants}>
-        <div>
-          <span className="tutor-student-stat-icon">
-            <UserRound size={17} />
-          </span>
+        <TutorStatCard
+          icon={UserRound}
+          label="Total students"
+          value={students.length}
+          iconElement="span"
+          iconClassName="tutor-student-stat-icon"
+          labelElement="small"
+        />
 
-          <section>
-            <small>Total students</small>
+        <TutorStatCard
+          icon={CalendarDays}
+          label="Active students"
+          value={activeStudents}
+          iconElement="span"
+          iconClassName="tutor-student-stat-icon"
+          labelElement="small"
+        />
 
-            <strong>{students.length}</strong>
-          </section>
-        </div>
+        <TutorStatCard
+          icon={GraduationCap}
+          label="Total lessons"
+          value={tutorLessons.length}
+          iconElement="span"
+          iconClassName="tutor-student-stat-icon"
+          labelElement="small"
+        />
 
-        <div>
-          <span className="tutor-student-stat-icon">
-            <CalendarDays size={17} />
-          </span>
-
-          <section>
-            <small>Active students</small>
-
-            <strong>{activeStudents}</strong>
-          </section>
-        </div>
-
-        <div>
-          <span className="tutor-student-stat-icon">
-            <GraduationCap size={17} />
-          </span>
-
-          <section>
-            <small>Total lessons</small>
-
-            <strong>{tutorLessons.length}</strong>
-          </section>
-        </div>
-
-        <div>
-          <span className="tutor-student-stat-icon">
-            <CheckCircle2 size={17} />
-          </span>
-
-          <section>
-            <small>Completed</small>
-
-            <strong>{totalCompleted}</strong>
-          </section>
-        </div>
+        <TutorStatCard
+          icon={CheckCircle2}
+          label="Completed"
+          value={totalCompleted}
+          iconElement="span"
+          iconClassName="tutor-student-stat-icon"
+          labelElement="small"
+        />
       </motion.div>
 
       {/* =====================================

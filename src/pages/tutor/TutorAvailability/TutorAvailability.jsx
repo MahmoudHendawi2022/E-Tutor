@@ -10,6 +10,7 @@ import {
   availabilityDays,
   useAvailability,
 } from "../../../context/AvailabilityContext";
+import { TutorPageHeader, TutorStatCard } from "../../../components/tutor";
 
 import "./tutorAvailability.css";
 
@@ -106,18 +107,13 @@ function TutorAvailability() {
           HEADER
       ===================================== */}
 
-      <motion.div
+      <TutorPageHeader
+        eyebrow="SCHEDULE"
+        title="Availability"
+        description="Choose when students can book lessons with you."
         className="tutor-availability-heading"
         variants={itemVariants}
-      >
-        <div>
-          <span>SCHEDULE</span>
-
-          <h1>Availability</h1>
-
-          <p>Choose when students can book lessons with you.</p>
-        </div>
-      </motion.div>
+      />
 
       {/* =====================================
           SUMMARY
@@ -127,35 +123,27 @@ function TutorAvailability() {
         className="tutor-availability-summary"
         variants={itemVariants}
       >
-        <div>
-          <Clock3 size={17} />
+        <TutorStatCard
+          icon={Clock3}
+          label="Available days"
+          value={activeDays}
+          iconElement="none"
+        />
 
-          <section>
-            <span>Available days</span>
+        <TutorStatCard
+          icon={Clock3}
+          label="Time ranges"
+          value={totalRanges}
+          iconElement="none"
+        />
 
-            <strong>{activeDays}</strong>
-          </section>
-        </div>
-
-        <div>
-          <Clock3 size={17} />
-
-          <section>
-            <span>Time ranges</span>
-
-            <strong>{totalRanges}</strong>
-          </section>
-        </div>
-
-        <div className="tutor-availability-timezone-card">
-          <Globe2 size={17} />
-
-          <section>
-            <span>Timezone</span>
-
-            <strong>{availability.timezone}</strong>
-          </section>
-        </div>
+        <TutorStatCard
+          icon={Globe2}
+          label="Timezone"
+          value={availability.timezone}
+          className="tutor-availability-timezone-card"
+          iconElement="none"
+        />
       </motion.div>
 
       {/* =====================================

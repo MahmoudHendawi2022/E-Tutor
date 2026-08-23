@@ -13,6 +13,7 @@ import { useTutors } from "../../context/TutorsContext";
 import { useLessons } from "../../context/LessonsContext";
 import { usePayments } from "../../context/PaymentsContext";
 import { usePlatformSettings } from "../../context/PlatformSettingsContext";
+import { AdminPageHeader, AdminStatCard, AdminStatusBadge } from "../../components/admin";
 import { completedHours, formatDateTime, money } from "./adminUtils";
 import "./adminPages.css";
 
@@ -35,26 +36,24 @@ function AdminDashboard() {
 
   return (
     <main className="admin-page">
-      <div className="admin-page-head">
-        <div>
-          <span>PLATFORM OVERVIEW</span>
-          <h1>Administration dashboard</h1>
-          <p>Live operational, tutor, student, lesson and finance data from the current frontend demo.</p>
-        </div>
+      <AdminPageHeader
+        eyebrow="PLATFORM OVERVIEW"
+        title="Administration dashboard"
+        description="Live operational, tutor, student, lesson and finance data from the current frontend demo."
+      />
+
+      <div className="admin-stats">
+        <AdminStatCard icon={Users} label="Students" value={students.length} note="Registered student accounts" />
+        <AdminStatCard icon={GraduationCap} label="Approved tutors" value={approvedTutors.length} note={`${tutorApplications.filter((item) => item.status === "pending_review").length} pending review`} />
+        <AdminStatCard icon={BookOpenCheck} label="Completed lessons" value={completedLessons.length} note={`${hours} completed teaching hours`} />
+        <AdminStatCard icon={Clock3} label="Upcoming lessons" value={upcomingLessons.length} note={`${lessons.length} total lesson records`} />
       </div>
 
       <div className="admin-stats">
-        <Stat icon={Users} label="Students" value={students.length} note="Registered student accounts" />
-        <Stat icon={GraduationCap} label="Approved tutors" value={approvedTutors.length} note={`${tutorApplications.filter((item) => item.status === "pending_review").length} pending review`} />
-        <Stat icon={BookOpenCheck} label="Completed lessons" value={completedLessons.length} note={`${hours} completed teaching hours`} />
-        <Stat icon={Clock3} label="Upcoming lessons" value={upcomingLessons.length} note={`${lessons.length} total lesson records`} />
-      </div>
-
-      <div className="admin-stats">
-        <Stat icon={CircleDollarSign} label="Gross booking value" value={money(financialSummary.grossBookings, currency)} note="Before refunds" />
-        <Stat icon={CircleDollarSign} label="Net collected" value={money(financialSummary.netCollected, currency)} note={`${money(financialSummary.refunded, currency)} refunded`} />
-        <Stat icon={CircleDollarSign} label="Platform revenue" value={money(financialSummary.platformRevenue, currency)} note="Commission after refunds" />
-        <Stat icon={WalletCards} label="Tutor earnings" value={money(financialSummary.tutorEarnings, currency)} note={`${money(financialSummary.pendingPayouts, currency)} pending payout`} />
+        <AdminStatCard icon={CircleDollarSign} label="Gross booking value" value={money(financialSummary.grossBookings, currency)} note="Before refunds" />
+        <AdminStatCard icon={CircleDollarSign} label="Net collected" value={money(financialSummary.netCollected, currency)} note={`${money(financialSummary.refunded, currency)} refunded`} />
+        <AdminStatCard icon={CircleDollarSign} label="Platform revenue" value={money(financialSummary.platformRevenue, currency)} note="Commission after refunds" />
+        <AdminStatCard icon={WalletCards} label="Tutor earnings" value={money(financialSummary.tutorEarnings, currency)} note={`${money(financialSummary.pendingPayouts, currency)} pending payout`} />
       </div>
 
       <div className="admin-grid-two">
@@ -70,8 +69,8 @@ function AdminDashboard() {
                       <td><strong>{payment.id}</strong></td>
                       <td>{payment.bookingId}</td>
                       <td>{money(payment.grossAmount, payment.currency)}</td>
-                      <td><span className={`admin-badge ${payment.paymentStatus}`}>{payment.paymentStatus}</span></td>
-                      <td><span className={`admin-badge ${payment.fundStatus}`}>{payment.fundStatus}</span></td>
+                      <td><AdminStatusBadge status={payment.paymentStatus} /></td>
+                      <td><AdminStatusBadge status={payment.fundStatus} /></td>
                       <td>{formatDateTime(payment.createdAt)}</td>
                     </tr>
                   ))}
@@ -87,7 +86,7 @@ function AdminDashboard() {
             {tutorApplications.filter((item) => item.status === "pending_review").slice(0, 8).map((tutor) => (
               <div className="admin-list-row" key={tutor.id}>
                 <div><strong>{tutor.name}</strong><span>{tutor.primarySubject || "No subject"} · {tutor.country || "No country"}</span></div>
-                <span className="admin-badge pending_review">pending</span>
+                <AdminStatusBadge status="pending_review" label="pending" />
               </div>
             ))}
             {!tutorApplications.some((item) => item.status === "pending_review") && <div className="admin-empty">No pending tutor applications.</div>}
@@ -95,15 +94,6 @@ function AdminDashboard() {
         </section>
       </div>
     </main>
-  );
-}
-
-function Stat({ icon: Icon, label, value, note }) {
-  return (
-    <article className="admin-stat">
-      <div className="admin-stat-top"><span>{label}</span><Icon size={16} /></div>
-      <h2>{value}</h2><p>{note}</p>
-    </article>
   );
 }
 

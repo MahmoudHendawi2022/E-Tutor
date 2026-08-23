@@ -3,6 +3,7 @@ import { CircleDollarSign, RotateCcw, WalletCards } from "lucide-react";
 import { useTutors } from "../../context/TutorsContext";
 import { usePayments } from "../../context/PaymentsContext";
 import { usePlatformSettings } from "../../context/PlatformSettingsContext";
+import { AdminPageHeader, AdminStatCard } from "../../components/admin";
 import { currencyTotalsText, money } from "./adminUtils";
 import "./adminPages.css";
 
@@ -15,18 +16,22 @@ function AdminFinance() {
 
   return (
     <main className="admin-page">
-      <div className="admin-page-head"><div><span>FINANCIAL CONTROL</span><h1>Finance</h1><p>Gross sales, refunds, net collections, platform commission, tutor earnings and payouts.</p></div></div>
+      <AdminPageHeader
+        eyebrow="FINANCIAL CONTROL"
+        title="Finance"
+        description="Gross sales, refunds, net collections, platform commission, tutor earnings and payouts."
+      />
       <div className="admin-stats">
-        <Stat icon={CircleDollarSign} label="Gross bookings" value={money(financialSummary.grossBookings, currency)} note="All paid booking value before refunds" />
-        <Stat icon={RotateCcw} label="Refunded" value={money(financialSummary.refunded, currency)} note="Full and partial refunds" />
-        <Stat icon={CircleDollarSign} label="Net collected" value={money(financialSummary.netCollected, currency)} note="Gross minus refunds" />
-        <Stat icon={CircleDollarSign} label="Platform revenue" value={money(financialSummary.platformRevenue, currency)} note="Commission after refund adjustments" />
+        <AdminStatCard icon={CircleDollarSign} label="Gross bookings" value={money(financialSummary.grossBookings, currency)} note="All paid booking value before refunds" />
+        <AdminStatCard icon={RotateCcw} label="Refunded" value={money(financialSummary.refunded, currency)} note="Full and partial refunds" />
+        <AdminStatCard icon={CircleDollarSign} label="Net collected" value={money(financialSummary.netCollected, currency)} note="Gross minus refunds" />
+        <AdminStatCard icon={CircleDollarSign} label="Platform revenue" value={money(financialSummary.platformRevenue, currency)} note="Commission after refund adjustments" />
       </div>
       <div className="admin-stats">
-        <Stat icon={WalletCards} label="Tutor earnings" value={money(financialSummary.tutorEarnings, currency)} note="Net tutor entitlement" />
-        <Stat icon={WalletCards} label="Pending payouts" value={money(financialSummary.pendingPayouts, currency)} note="Created but not paid" />
-        <Stat icon={WalletCards} label="Paid payouts" value={money(financialSummary.paidPayouts, currency)} note="Transferred to tutors" />
-        <Stat icon={CircleDollarSign} label="Platform margin" value={financialSummary.netCollected ? `${((financialSummary.platformRevenue / financialSummary.netCollected) * 100).toFixed(1)}%` : "0%"} note="Revenue / net collected" />
+        <AdminStatCard icon={WalletCards} label="Tutor earnings" value={money(financialSummary.tutorEarnings, currency)} note="Net tutor entitlement" />
+        <AdminStatCard icon={WalletCards} label="Pending payouts" value={money(financialSummary.pendingPayouts, currency)} note="Created but not paid" />
+        <AdminStatCard icon={WalletCards} label="Paid payouts" value={money(financialSummary.paidPayouts, currency)} note="Transferred to tutors" />
+        <AdminStatCard icon={CircleDollarSign} label="Platform margin" value={financialSummary.netCollected ? `${((financialSummary.platformRevenue / financialSummary.netCollected) * 100).toFixed(1)}%` : "0%"} note="Revenue / net collected" />
       </div>
       <section className="admin-panel">
         <div className="admin-panel-head"><div><h2>Currency breakdown</h2><p>Currencies are never added together without a real FX conversion service.</p></div></div>
@@ -45,5 +50,4 @@ function AdminFinance() {
   );
 }
 
-function Stat({ icon: Icon, label, value, note }) { return <article className="admin-stat"><div className="admin-stat-top"><span>{label}</span><Icon size={16}/></div><h2>{value}</h2><p>{note}</p></article>; }
 export default AdminFinance;

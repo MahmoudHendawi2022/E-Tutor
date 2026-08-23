@@ -6,6 +6,7 @@ import { useTutors } from "../../context/TutorsContext";
 import { useLessons } from "../../context/LessonsContext";
 import { usePayments } from "../../context/PaymentsContext";
 import { usePlatformSettings } from "../../context/PlatformSettingsContext";
+import { AdminPageHeader, AdminStatCard } from "../../components/admin";
 import { completedHours, currencyTotalsText, downloadCsv, money } from "./adminUtils";
 import "./adminPages.css";
 
@@ -144,21 +145,19 @@ function AdminReports() {
 
   return (
     <main className="admin-page">
-      <div className="admin-page-head">
-        <div>
-          <span>REPORTING</span>
-          <h1>Reports & exports</h1>
-          <p>Export operational and financial data derived from the current platform records.</p>
-        </div>
-      </div>
+      <AdminPageHeader
+        eyebrow="REPORTING"
+        title="Reports & exports"
+        description="Export operational and financial data derived from the current platform records."
+      />
 
       <div className="admin-stat-grid">
-        <Metric label="Students" value={studentAccounts.length} />
-        <Metric label="Tutors" value={tutors.length} />
-        <Metric label="Completed hours" value={completedHours(lessons)} />
-        <Metric label="Net collected" value={money(financialSummary.netCollected, currency)} />
-        <Metric label="Platform revenue" value={money(financialSummary.platformRevenue, currency)} />
-        <Metric label="Refunded" value={money(financialSummary.refunded, currency)} />
+        <AdminStatCard variant="metric" label="Students" value={studentAccounts.length} />
+        <AdminStatCard variant="metric" label="Tutors" value={tutors.length} />
+        <AdminStatCard variant="metric" label="Completed hours" value={completedHours(lessons)} />
+        <AdminStatCard variant="metric" label="Net collected" value={money(financialSummary.netCollected, currency)} />
+        <AdminStatCard variant="metric" label="Platform revenue" value={money(financialSummary.platformRevenue, currency)} />
+        <AdminStatCard variant="metric" label="Refunded" value={money(financialSummary.refunded, currency)} />
       </div>
 
       <section className="admin-section">
@@ -185,15 +184,6 @@ function AdminReports() {
         </div>
       </section>
     </main>
-  );
-}
-
-function Metric({ label, value }) {
-  return (
-    <article className="admin-stat-card">
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </article>
   );
 }
 

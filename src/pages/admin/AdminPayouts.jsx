@@ -2,6 +2,7 @@ import { useMemo } from "react";
 
 import { useTutors } from "../../context/TutorsContext";
 import { usePayments } from "../../context/PaymentsContext";
+import { AdminPageHeader, AdminStatusBadge } from "../../components/admin";
 import { formatDateTime, money } from "./adminUtils";
 import "./adminPages.css";
 
@@ -42,16 +43,11 @@ function AdminPayouts() {
 
   return (
     <main className="admin-page">
-      <div className="admin-page-head">
-        <div>
-          <span>TUTOR SETTLEMENTS</span>
-          <h1>Payouts</h1>
-          <p>
-            Create payouts only from released earnings after completed lessons.
-            Each currency is settled separately.
-          </p>
-        </div>
-      </div>
+      <AdminPageHeader
+        eyebrow="TUTOR SETTLEMENTS"
+        title="Payouts"
+        description="Create payouts only from released earnings after completed lessons. Each currency is settled separately."
+      />
 
       <section className="admin-panel" style={{ marginBottom: 12 }}>
         <div className="admin-panel-head">
@@ -159,9 +155,7 @@ function AdminPayouts() {
                     <td>{payout.paymentIds.length}</td>
 
                     <td>
-                      <span className={`admin-badge ${payout.status}`}>
-                        {payout.status}
-                      </span>
+                      <AdminStatusBadge status={payout.status} />
                     </td>
 
                     <td>{formatDateTime(payout.createdAt)}</td>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Save, RotateCcw } from "lucide-react";
 
 import { usePlatformSettings } from "../../context/PlatformSettingsContext";
+import { AdminPageHeader } from "../../components/admin";
 import "./adminPages.css";
 
 function AdminSettings() {
@@ -29,10 +30,13 @@ function AdminSettings() {
 
   return (
     <main className="admin-page">
-      <div className="admin-page-head">
-        <div><span>PLATFORM SETTINGS</span><h1>Business rules</h1><p>Global financial and operational configuration used by the frontend demo.</p></div>
+      <AdminPageHeader
+        eyebrow="PLATFORM SETTINGS"
+        title="Business rules"
+        description="Global financial and operational configuration used by the frontend demo."
+      >
         <button className="admin-button secondary" type="button" onClick={() => { if (window.confirm("Reset platform settings to defaults?")) resetSettings(); }}><RotateCcw size={13}/> Reset</button>
-      </div>
+      </AdminPageHeader>
 
       {saved && <div className="admin-success-banner">Settings saved successfully.</div>}
 

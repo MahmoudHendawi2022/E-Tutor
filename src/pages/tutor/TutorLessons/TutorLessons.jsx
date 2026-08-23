@@ -20,6 +20,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { useLessons } from "../../../context/LessonsContext";
 
 import { useMessages } from "../../../context/MessagesContext";
+import { TutorPageHeader, TutorEmptyState } from "../../../components/tutor";
 
 import "./tutorLessons.css";
 
@@ -325,17 +326,12 @@ function TutorLessons() {
           HEADER
       ===================================== */}
 
-      <div className="tutor-lessons-heading">
-        <div>
-          <span>TEACHING</span>
-
-          <h1>My lessons</h1>
-
-          <p>
-            Manage your scheduled lessons and communicate with your students.
-          </p>
-        </div>
-      </div>
+      <TutorPageHeader
+        eyebrow="TEACHING"
+        title="My lessons"
+        description="Manage your scheduled lessons and communicate with your students."
+        className="tutor-lessons-heading"
+      />
 
       {/* =====================================
           STUDENT FILTER
@@ -599,17 +595,13 @@ function TutorLessons() {
             );
           })
         ) : (
-          <div className="tutor-lessons-empty">
-            <CalendarDays size={25} />
-
-            <strong>
-              {studentFilter
-                ? `No ${activeTab} lessons for this student`
-                : `No ${activeTab} lessons`}
-            </strong>
-
-            <span>Lessons will appear here when available.</span>
-          </div>
+          <TutorEmptyState
+            icon={CalendarDays}
+            title={studentFilter ? `No ${activeTab} lessons for this student` : `No ${activeTab} lessons`}
+            description="Lessons will appear here when available."
+            className="tutor-lessons-empty"
+            iconSize={25}
+          />
         )}
       </div>
     </motion.main>
