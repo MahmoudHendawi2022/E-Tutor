@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import {
   CalendarDays,
@@ -427,7 +427,7 @@ function StudentDashboard() {
         const lessonsCount = relation
           ? relation.lessonsCount + newlyCreatedLessons
           : tutorLessons.filter((lesson) => lesson.status !== "cancelled")
-              .length;
+            .length;
 
         const active = Boolean(nextTutorLesson) || Boolean(relation?.active);
 

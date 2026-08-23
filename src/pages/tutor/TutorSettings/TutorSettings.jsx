@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate } from "react-router";
+import { Navigate } from "react-router-dom";
 import { CheckCircle2, Clock3 } from "lucide-react";
 import { motion } from "motion/react";
 

@@ -1,5 +1,5 @@
 import "../sections/annonceBar.css";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import { useState } from "react";
 import { motion } from "motion/react";
@@ -8,8 +8,8 @@ function Annoncebar() {
   const [showAnnonce, setshowAnnonce] = useState(false);
   return (
     <motion.div
-      initial={{ opacity: 0}}
-      animate={{ opacity: 1}}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{
         duration: 1,
       }}

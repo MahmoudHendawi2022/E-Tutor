@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
   ArrowLeft,
@@ -487,14 +487,14 @@ function BookLesson() {
                   >
                     {selectedDate
                       ? selectedDate.toLocaleDateString("en-US", {
-                          weekday: "short",
+                        weekday: "short",
 
-                          month: "short",
+                        month: "short",
 
-                          day: "numeric",
+                        day: "numeric",
 
-                          year: "numeric",
-                        })
+                        year: "numeric",
+                      })
                       : "Select a date"}
                   </motion.strong>
                 </AnimatePresence>
@@ -546,15 +546,15 @@ function BookLesson() {
               whileHover={
                 selectedDate && selectedTime
                   ? {
-                      y: -1,
-                    }
+                    y: -1,
+                  }
                   : {}
               }
               whileTap={
                 selectedDate && selectedTime
                   ? {
-                      scale: 0.985,
-                    }
+                    scale: 0.985,
+                  }
                   : {}
               }
             >

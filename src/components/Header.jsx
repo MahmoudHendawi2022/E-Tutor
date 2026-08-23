@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -310,9 +310,8 @@ function Header() {
               <div className="header-profile" ref={profileRef}>
                 <button
                   type="button"
-                  className={`header-profile-button ${
-                    profileOpen ? "active" : ""
-                  }`}
+                  className={`header-profile-button ${profileOpen ? "active" : ""
+                    }`}
                   onClick={() => setProfileOpen((current) => !current)}
                   aria-expanded={profileOpen}
                 >

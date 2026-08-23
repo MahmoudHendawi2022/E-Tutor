@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 
 import {
   ArrowLeft,
@@ -478,21 +478,20 @@ function LessonDetails() {
                     href={lesson.meetingUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className={`lesson-join-button ${
-                      !joinState.canJoin ? "disabled" : ""
-                    }`}
+                    className={`lesson-join-button ${!joinState.canJoin ? "disabled" : ""
+                      }`}
                     whileHover={
                       joinState.canJoin
                         ? {
-                            y: -1,
-                          }
+                          y: -1,
+                        }
                         : {}
                     }
                     whileTap={
                       joinState.canJoin
                         ? {
-                            scale: 0.985,
-                          }
+                          scale: 0.985,
+                        }
                         : {}
                     }
                     onClick={(event) => {
@@ -843,9 +842,8 @@ function LessonDetails() {
                       <button
                         type="button"
                         key={reason}
-                        className={`lesson-details-cancel-reason ${
-                          active ? "active" : ""
-                        }`}
+                        className={`lesson-details-cancel-reason ${active ? "active" : ""
+                          }`}
                         onClick={() => {
                           setCancellationReason(reason);
 

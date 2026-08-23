@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import {
   CalendarDays,
@@ -818,9 +818,8 @@ function MyLessons() {
                       <button
                         type="button"
                         key={reason}
-                        className={`lesson-cancel-reason ${
-                          active ? "active" : ""
-                        }`}
+                        className={`lesson-cancel-reason ${active ? "active" : ""
+                          }`}
                         onClick={() => {
                           setCancellationReason(reason);
 

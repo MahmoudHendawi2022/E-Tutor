@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, GraduationCap, UserRound } from "lucide-react";
 import { motion } from "motion/react";
 
@@ -72,10 +72,10 @@ function Register() {
         <motion.div className="register-role" variants={itemVariants}>
           <span className="register-role-label">I want to join as</span>
           <div className="register-role-selector">
-            <RoleButton active={role === "student"} icon={UserRound} label="Student" onClick={() => { setRole("student"); setError(""); }}/>
-            <RoleButton active={role === "tutor"} icon={GraduationCap} label="Tutor" onClick={() => { setRole("tutor"); setError(""); }}/>
+            <RoleButton active={role === "student"} icon={UserRound} label="Student" onClick={() => { setRole("student"); setError(""); }} />
+            <RoleButton active={role === "tutor"} icon={GraduationCap} label="Tutor" onClick={() => { setRole("tutor"); setError(""); }} />
           </div>
-          {role === "tutor" && <motion.div className="register-tutor-note" initial={{ opacity:0,y:-3 }} animate={{ opacity:1,y:0 }}><GraduationCap size={14}/><span>Your tutor profile will not be public until it is reviewed and approved by E-Tutor.</span></motion.div>}
+          {role === "tutor" && <motion.div className="register-tutor-note" initial={{ opacity: 0, y: -3 }} animate={{ opacity: 1, y: 0 }}><GraduationCap size={14} /><span>Your tutor profile will not be public until it is reviewed and approved by E-Tutor.</span></motion.div>}
         </motion.div>
 
         <form onSubmit={submit}>
@@ -93,7 +93,7 @@ function Register() {
               required
             />
           </motion.div>
-          
+
           <motion.div className="register-field" variants={itemVariants}>
             <FormLabel htmlFor="register-email">Email address</FormLabel>
             <Input
@@ -108,7 +108,7 @@ function Register() {
               required
             />
           </motion.div>
-          
+
           <motion.div className="register-field" variants={itemVariants}>
             <FormLabel htmlFor="register-password">Password</FormLabel>
             <Input
@@ -135,7 +135,7 @@ function Register() {
             />
             <span className="register-field-hint">Must be at least 8 characters.</span>
           </motion.div>
-          
+
           <motion.div className="register-field" variants={itemVariants}>
             <FormLabel htmlFor="register-confirm-password">Confirm password</FormLabel>
             <Input
@@ -161,18 +161,18 @@ function Register() {
               }
             />
           </motion.div>
-          
+
           {error && (
             <motion.div className="register-error" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}>
               <FormError>{error}</FormError>
             </motion.div>
           )}
-          
+
           <motion.label className="register-terms" variants={itemVariants}>
             <input type="checkbox" disabled={loading} required />
             <span>I agree to the E-Tutor Terms of Service and Privacy Policy.</span>
           </motion.label>
-          
+
           <MotionButton
             type="submit"
             className="register-submit"
@@ -191,7 +191,7 @@ function Register() {
 }
 
 function RoleButton({ active, icon: Icon, label, onClick }) {
-  return <button type="button" className={active ? "active" : ""} onClick={onClick}>{active && <motion.span className="register-role-active" layoutId="register-active-role" transition={{type:"spring",stiffness:500,damping:38}}/>}<span className="register-role-text"><Icon size={14}/>{label}</span></button>;
+  return <button type="button" className={active ? "active" : ""} onClick={onClick}>{active && <motion.span className="register-role-active" layoutId="register-active-role" transition={{ type: "spring", stiffness: 500, damping: 38 }} />}<span className="register-role-text"><Icon size={14} />{label}</span></button>;
 }
 
 export default Register;

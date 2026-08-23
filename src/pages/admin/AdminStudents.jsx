@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 import { useLessons } from "../../context/LessonsContext";
@@ -35,7 +35,7 @@ function AdminStudents() {
         {students.map((student) => {
           const studentLessons = lessons.filter((lesson) => Number(lesson.studentId) === Number(student.id));
           const finance = getStudentFinanceByCurrency(student.id);
-          return <tr key={student.id}><td><Link className="admin-name-link" to={`/admin/students/${student.id}`}><strong>{student.fullName}</strong></Link><br/><span>{student.email}</span></td><td><AdminStatusBadge status={student.status || "active"} /></td><td>{formatDateTime(student.createdAt)}</td><td>{new Set(studentLessons.map((lesson) => lesson.tutorId)).size}</td><td>{studentLessons.filter((lesson) => lesson.status === "completed").length}</td><td>{completedHours(studentLessons)}</td><td>{currencyTotalsText(finance, "netSpend")}</td><td>{currencyTotalsText(finance, "refunded")}</td><td><button className={`admin-button ${student.status === "disabled" ? "success" : "danger"}`} onClick={() => setAccountStatus(student.id, student.status === "disabled" ? "active" : "disabled")}>{student.status === "disabled" ? "Enable" : "Disable"}</button></td></tr>;
+          return <tr key={student.id}><td><Link className="admin-name-link" to={`/admin/students/${student.id}`}><strong>{student.fullName}</strong></Link><br /><span>{student.email}</span></td><td><AdminStatusBadge status={student.status || "active"} /></td><td>{formatDateTime(student.createdAt)}</td><td>{new Set(studentLessons.map((lesson) => lesson.tutorId)).size}</td><td>{studentLessons.filter((lesson) => lesson.status === "completed").length}</td><td>{completedHours(studentLessons)}</td><td>{currencyTotalsText(finance, "netSpend")}</td><td>{currencyTotalsText(finance, "refunded")}</td><td><button className={`admin-button ${student.status === "disabled" ? "success" : "danger"}`} onClick={() => setAccountStatus(student.id, student.status === "disabled" ? "active" : "disabled")}>{student.status === "disabled" ? "Enable" : "Disable"}</button></td></tr>;
         })}
       </tbody></table></div>
     </main>

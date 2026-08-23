@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink, Navigate, Outlet, useNavigate } from "react-router";
+import { Link, NavLink, Navigate, Outlet, useNavigate } from "react-router-dom";
 import {
   BookOpen,
   CalendarDays,

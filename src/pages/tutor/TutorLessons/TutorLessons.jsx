@@ -11,7 +11,7 @@ import {
   UserRound,
 } from "lucide-react";
 
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { motion } from "motion/react";
 
@@ -185,8 +185,8 @@ function TutorLessons() {
   const counts = useMemo(() => {
     const relevantLessons = studentFilter
       ? tutorLessons.filter(
-          (lesson) => Number(lesson.studentId) === Number(studentFilter),
-        )
+        (lesson) => Number(lesson.studentId) === Number(studentFilter),
+      )
       : tutorLessons;
 
     return {
@@ -404,12 +404,12 @@ function TutorLessons() {
             const completionState =
               lesson.status === "upcoming"
                 ? getTutorCompletionState(
-                    lesson.id,
+                  lesson.id,
 
-                    user.tutorId,
+                  user.tutorId,
 
-                    now,
-                  )
+                  now,
+                )
                 : null;
 
             return (

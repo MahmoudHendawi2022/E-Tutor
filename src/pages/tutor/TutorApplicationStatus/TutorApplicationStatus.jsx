@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   BookOpen,
   CheckCircle2,
@@ -89,17 +89,17 @@ function TutorApplicationStatus() {
 
   const languages = Array.isArray(tutor.languages)
     ? tutor.languages
-        .map((item) => {
-          if (typeof item === "string") {
-            return item;
-          }
+      .map((item) => {
+        if (typeof item === "string") {
+          return item;
+        }
 
-          const language = item?.language || "";
-          const level = item?.level || "";
+        const language = item?.language || "";
+        const level = item?.level || "";
 
-          return [language, level].filter(Boolean).join(" · ");
-        })
-        .filter(Boolean)
+        return [language, level].filter(Boolean).join(" · ");
+      })
+      .filter(Boolean)
     : [];
 
   const handleLogout = () => {
@@ -353,19 +353,19 @@ function TutorApplicationStatus() {
             {["pending_review", "approved", "needs_changes"].includes(
               tutor.status,
             ) && (
-              <button
-                type="button"
-                className="tutor-status-secondary"
-                onClick={() => setDetailsOpen((current) => !current)}
-              >
-                <UserRound size={14} />
-                {detailsOpen ? "Hide application" : "View submitted application"}
-                <ChevronDown
-                  size={14}
-                  className={detailsOpen ? "rotate" : ""}
-                />
-              </button>
-            )}
+                <button
+                  type="button"
+                  className="tutor-status-secondary"
+                  onClick={() => setDetailsOpen((current) => !current)}
+                >
+                  <UserRound size={14} />
+                  {detailsOpen ? "Hide application" : "View submitted application"}
+                  <ChevronDown
+                    size={14}
+                    className={detailsOpen ? "rotate" : ""}
+                  />
+                </button>
+              )}
 
             <Link to="/home" className="tutor-status-secondary">
               <ExternalLink size={14} />
@@ -498,9 +498,8 @@ function ApplicationSummary({
 function ReviewStep({ icon: Icon, title, description, active, complete }) {
   return (
     <div
-      className={`tutor-review-step ${active ? "active" : ""} ${
-        complete ? "complete" : ""
-      }`}
+      className={`tutor-review-step ${active ? "active" : ""} ${complete ? "complete" : ""
+        }`}
     >
       <div>
         <Icon size={15} />

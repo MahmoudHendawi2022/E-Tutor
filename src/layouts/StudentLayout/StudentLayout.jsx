@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Link, NavLink, Outlet, useNavigate } from "react-router";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -477,9 +477,8 @@ function StudentLayout() {
             <div className="student-notification-wrapper" ref={notificationRef}>
               <button
                 type="button"
-                className={`student-notification ${
-                  notificationsOpen ? "active" : ""
-                }`}
+                className={`student-notification ${notificationsOpen ? "active" : ""
+                  }`}
                 aria-label="Notifications"
                 aria-expanded={notificationsOpen}
                 onClick={() => setNotificationsOpen((current) => !current)}
@@ -555,9 +554,8 @@ function StudentLayout() {
                           <button
                             key={notification.id}
                             type="button"
-                            className={`student-notification-item ${
-                              !notification.read ? "unread" : ""
-                            }`}
+                            className={`student-notification-item ${!notification.read ? "unread" : ""
+                              }`}
                             onClick={() => openNotification(notification)}
                           >
                             <div

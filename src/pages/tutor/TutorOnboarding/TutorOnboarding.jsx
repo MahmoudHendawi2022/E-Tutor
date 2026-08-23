@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 
 import TutorProfileForm from "../../../components/TutorProfileForm/TutorProfileForm";

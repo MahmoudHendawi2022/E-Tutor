@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { useSearchParams } from "react-router";
+import { useSearchParams } from "react-router-dom";
 
 import {
   ArrowLeft,
@@ -359,9 +359,8 @@ function TutorMessages() {
         ===================================== */}
 
         <aside
-          className={`messages-sidebar ${
-            mobileChatOpen ? "mobile-hidden" : ""
-          }`}
+          className={`messages-sidebar ${mobileChatOpen ? "mobile-hidden" : ""
+            }`}
         >
           <div className="messages-sidebar-header">
             <div>
@@ -589,8 +588,8 @@ function TutorMessages() {
                 whileTap={
                   message.trim()
                     ? {
-                        scale: 0.94,
-                      }
+                      scale: 0.94,
+                    }
                     : {}
                 }
                 aria-label="Send message"

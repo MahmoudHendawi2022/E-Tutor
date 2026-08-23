@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { Play } from "lucide-react";
 import heroImage from "../../../../assets/hero-study.png";
 import "../sections/hero.css";
