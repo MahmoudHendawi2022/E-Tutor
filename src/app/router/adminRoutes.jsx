@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router";
+import { Route } from "react-router-dom";
 import AdminRoute from "../../components/Auth/AdminRoute";
 import AdminLayout from "../../layouts/AdminLayout/AdminLayout";
 import AdminSignIn from "../../pages/admin/AdminSignIn";
