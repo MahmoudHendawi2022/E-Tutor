@@ -7,7 +7,8 @@ import Register from "../../pages/public/Register/Register";
 
 export const publicRoutes = (
   <Route element={<MainLayout />}>
-    <Route path="/home" element={<Home />} />
+    <Route path="/" element={<Home />} />
+    <Route path="/home" element={<Navigate to="/" replace />} />
     <Route path="/signin" element={<SignIn />} />
     <Route path="/register" element={<Register />} />
   </Route>

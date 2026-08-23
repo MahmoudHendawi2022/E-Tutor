@@ -8,14 +8,12 @@ import { adminRoutes } from "./adminRoutes";
 export default function AppRouter() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/signin" replace />} />
-      
       {publicRoutes}
       {studentRoutes}
       {tutorRoutes}
       {adminRoutes}
       
-      <Route path="*" element={<Navigate to="/signin" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

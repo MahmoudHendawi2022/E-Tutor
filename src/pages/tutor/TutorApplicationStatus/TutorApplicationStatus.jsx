@@ -105,7 +105,7 @@ function TutorApplicationStatus() {
   const handleLogout = () => {
     logout();
 
-    navigate("/signin", {
+    navigate("/", {
       replace: true,
     });
   };
